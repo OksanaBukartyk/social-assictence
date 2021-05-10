@@ -36,8 +36,8 @@ def posts(request):
     context = {'posts': posts, 'myFilter': myFilter}
     return render(request, 'base/posts.html', context)
 
-def home(request):
 
+def home(request):
     posts = Post.objects.filter(active=True)
     myFilter = PostFilterName(request.GET, queryset=posts)
     posts = myFilter.qs
@@ -72,7 +72,6 @@ def post(request, slug):
 
     context = {'post': post, 'images': images}
     return render(request, 'base/post.html', context)
-
 
 
 def my_posts(request):
@@ -209,7 +208,12 @@ def registerPage(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
+
             user.save()
+
+            profile = Profile(user=user)
+
+            profile.save()
             messages.success(request, 'Account successfuly created!')
 
             user = authenticate(request, username=user.username, password=request.POST['password1'])
@@ -232,13 +236,12 @@ def logoutUser(request):
     return redirect('home')
 
 
-def profile(request, slug):
-    profile = Profile.objects.get(slug=slug)
-    chats= (Chat.objects.filter(sender=request.user.profile, recipient=profile) |
-            Chat.objects.filter(sender=profile, recipient=request.user.profile)).first()
+def profile(request, username):
+    user=User.objects.get(username=username)
+    #profile = Profile.objects.get(user = user)
+    chats = (Chat.objects.filter(sender=request.user.profile, recipient=user.profile) |
+             Chat.objects.filter(sender=user.profile, recipient=request.user.profile)).first()
     posts = Post.objects.filter(active=True, author=request.user.profile)
-
-
 
     page = request.GET.get('page')
 
@@ -251,11 +254,10 @@ def profile(request, slug):
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
 
-
-    if chats==None:
+    if chats == None:
         chats = Chat.objects.create(
             sender=request.user.profile,
-            recipient = profile)
+            recipient=profile)
 
     if request.method == 'POST':
         ProfileComment.objects.create(
@@ -265,9 +267,9 @@ def profile(request, slug):
         )
         messages.success(request, "You're comment was successfuly posted!")
 
-        return redirect('profile', slug=profile.slug)
+        return redirect('profile', username=user.username)
 
-    context = {'profile': profile, 'chats': chats, 'posts': posts}
+    context = {'user': user, 'chats': chats, 'posts': posts}
 
     return render(request, 'base/profile.html', context)
 
@@ -291,28 +293,26 @@ def updateProfile(request):
     return render(request, 'base/profile_form.html', context)
 
 
-def chat(request,  slug):
-
-    user2=request.user.profile
+def chat(request, slug):
+    user2 = request.user.profile
     chat = Chat.objects.get(slug=slug)
 
     if request.method == 'POST':
-                Message.objects.create(
-                    send=user2,
-                    chat=chat,
-                    body=request.POST['comment']
-                )
-                messages.success(request, "You're message was successfuly posted!")
+        Message.objects.create(
+            send=user2,
+            chat=chat,
+            body=request.POST['comment']
+        )
+        messages.success(request, "You're message was successfuly posted!")
 
-                return redirect('chat', slug=chat.slug)
+        return redirect('chat', slug=chat.slug)
 
     context = {'chat': chat}
     return render(request, 'base/chat.html', context)
 
 
 def chats(request):
-    chats = Chat.objects.filter(sender=request.user.profile)| Chat.objects.filter(recipient =request.user.profile)
-
+    chats = Chat.objects.filter(sender=request.user.profile) | Chat.objects.filter(recipient=request.user.profile)
 
     page = request.GET.get('page')
 
@@ -321,15 +321,15 @@ def chats(request):
     try:
         chats = paginator.page(page)
     except PageNotAnInteger:
-        chats= paginator.page(1)
+        chats = paginator.page(1)
     except EmptyPage:
         chats = paginator.page(paginator.num_pages)
 
     context = {'chats': chats}
     return render(request, 'base/chats.html', context)
 
+
 class DialogsView():
     def get(self, request):
         chats = Chat.objects.filter(members__in=[request.user.id])
         return render(request, 'users/dialogs.html', {'user_profile': request.user, 'chats': chats})
-

@@ -32,7 +32,7 @@
 		<li><a href="{% url 'chats' %}">Мої повідомленя</a></li>
 		<li><img width="30" height="30"  src=" {{request.user.profile.profile_pic.url}}"></li>
 
-		<li><a href="{% url 'profile' request.user.profile.slug %}">Профіль</a></li>
+		<li><a href="{% url 'profile' request.user.username %}">Профіль</a></li>
 			<li><a href="{% url 'logout' %}">Вихід</a></li>
 		{% else %}
 			<li><a href="{% url 'login' %}">Вхід</a></li>

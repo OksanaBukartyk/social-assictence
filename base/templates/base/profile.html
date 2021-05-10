@@ -62,13 +62,13 @@
     <div class="row">
         <div class="col-md-4">
             <div class="card card-body bg-transparent" id="user-info-box">
-                <img id="user_pic" src="{{profile.profile_pic.url}}">
+                <img id="user_pic" src="{{user.profile.profile_pic.url}}">
                 <br>
-                <h2 align="center"><font size="6" color="black" face="Arial">{{profile}}</font></h2>
+                <h2 align="center"><font size="6" color="black" face="Arial">{{user.first_name}} {{user.last_name}}</font></h2>
 
-                <p align="center"><font size="4" color="black" face="Arial">E-mail: {{profile.email}}</font></p>
+                <p align="center"><font size="4" color="black" face="Arial">E-mail: {{user.email}}</font></p>
 
-                <p>{{profile.bio}}</p>
+                <p>{{user.profile.bio}}</p>
                 {% for chat in chats.all %}
                 <li><a class="btn btn-warning"href="{% url 'chat' chat.slag %}">Написати повідомлення</a></li>
                 {% endfor %}

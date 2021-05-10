@@ -12,24 +12,24 @@ from ckeditor_uploader.fields import RichTextUploadingField
 
 class Profile(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=200, blank=True, null=True)
-    last_name = models.CharField(max_length=200, blank=True, null=True)
-    email = models.CharField(max_length=200)
+    #first_name = models.CharField(max_length=200, blank=True, null=True)
+    #last_name = models.CharField(max_length=200, blank=True, null=True)
+    #email = models.CharField(max_length=200)
     profile_pic = models.ImageField(null=True, blank=True, upload_to="images", default="/user.png")
     bio = models.TextField(null=True, blank=True)
     last_visit = models.DateTimeField(auto_now_add=True)
-    slug = models.SlugField(null=True, blank=True)
+    """slug = models.SlugField(null=True, blank=True)
 
     def __str__(self):
-        name = str(self.first_name)
-        if self.last_name:
-            name += ' ' + str(self.last_name)
+        name = str(self.user.first_name)
+        if self.user.last_name:
+            name += ' ' + str(self.user.last_name)
         return name
 
     def save(self, *args, **kwargs):
 
         if self.slug == None:
-            slug = slugify(self.last_name)
+            slug = slugify(self.user.last_name)
 
             has_slug = Profile.objects.filter(slug=slug).exists()
             count = 1
@@ -40,7 +40,7 @@ class Profile(models.Model):
 
             self.slug = slug
 
-        super().save(*args, **kwargs)
+        super().save(*args, **kwargs) """
 
 
 class Tag(models.Model):
