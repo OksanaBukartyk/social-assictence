@@ -1,0 +1,36 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% block content %}
+
+	<section class="s2">
+		<h1>Social assictence</h1>
+	</section>
+
+	<section class="s2">
+		<div class="main-container">
+			<a href=""></a>
+			<h3 style="text-align: center;">Зв'язатись</h3>
+
+			<form id="contact-form" method="POST" action="{% url 'send_email' %}">
+				{% csrf_token %}
+				<a name="contact"></a>
+
+				<label>Ім'я</label>
+				<input required class="input-field" type="text" name="name">
+
+				<label>Тема</label>
+
+				<input required class="input-field" type="text" name="subject">
+
+				<label>E-mail</label>
+				<input required class="input-field" type="text" name="email">
+
+				<label>Повідомлення</label>
+				<textarea required class="input-field" name="message"></textarea>
+
+				<input  class="btn btn-warning btn-lg btn-block" type="submit" value="Надіслати">
+			</form>
+		</div>
+	</section>
+
+{% endblock content %}

@@ -1,0 +1,52 @@
+{% extends 'base/main.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<style type="text/css">
+
+	A {
+    color: yellow; /* Цвет ссылок */
+   }
+    A:hover {
+    color : white;}
+
+
+</style>
+
+<section class=" bg-transparent" id="login-page-wrapper">
+	<div class=" bg-transparent" id="login-form-wrapper">
+		{% if messages %}
+			{% for message in messages %}
+				{% if message.tags == 'success' %}
+					<div class="alert alert-success" role="alert">
+						<span>{{message}}</span>
+					</div>
+				{% elif message.tags == 'error' %}
+					<div class="alert alert-danger" role="alert">
+						<span>{{message}}</span>
+					</div>
+				{% endif %}
+			{% endfor %}
+		{% endif %}
+
+		<h3 class = "btn btn-warning btn-lg btn-block" >Member Login</h3>
+		<hr>
+		<form method="POST">
+			{% csrf_token %}
+
+			<label>E-mail:</label>
+			<input required class="input-field" type="email" name="email">
+
+			<label>Password: </label>
+			<input required class="input-field" type="password" name="password">
+        	<hr>
+			<input class="btn btn-warning btn-lg btn-block" type="submit" value="Login">
+		</form>
+
+		<br>
+		<p><font size="3" color="black" face="Arial">Не маєте аккаунта? <a href="{% url 'register' %}">Зареєструватись</a></font></p>
+		<p><font size="3" color="black" face="Arial">Забули пароль? <a href="{% url 'password_reset' %}">Відновити</a></font></p>
+	</div>
+</section>
+
+{% endblock content %}

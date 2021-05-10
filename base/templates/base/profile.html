@@ -1,0 +1,197 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% block content %}
+
+<style type="text/css">
+	#user_pic{
+		height: 200px;
+		width: 200px;
+		border-radius: 50%;
+		border:5px solid #888;
+		margin:0 auto;
+		object-fit: cover;
+	}
+	A {
+    color: yellow; /* Цвет ссылок */
+   }
+    A:hover {
+    color : white;}
+
+	#user-info-box{
+		text-align: center;
+
+
+	}
+	.comments-wrapper{
+		margin-top: 50px;
+		padding: 10px;
+		border:1px solid var(--borderColor);
+		-webkit-box-shadow: -1px 1px 3px -1px rgba(0,0,0,0.75);
+		-moz-box-shadow: -1px 1px 3px -1px rgba(0,0,0,0.75);
+		box-shadow: -1px 1px 3px -1px rgba(0,0,0,0.75);
+	}
+
+	.comment{
+		display: flex;
+		padding: 15px;
+	}
+
+	.comment-author{
+		font-size: 14px;
+		font-weight: 700;
+		color: rgb(30, 174, 219) !important;
+		margin: 2px;
+	}
+
+	.author-pic{
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+		margin-right: 10px;
+	}
+
+	.comment-body{
+
+		font-size: 14px;
+	}
+
+</style>
+
+<div class="main-container">
+    <br>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card card-body bg-transparent" id="user-info-box">
+                <img id="user_pic" src="{{profile.profile_pic.url}}">
+                <br>
+                <h2 align="center"><font size="6" color="black" face="Arial">{{profile}}</font></h2>
+
+                <p align="center"><font size="4" color="black" face="Arial">E-mail: {{profile.email}}</font></p>
+
+                <p>{{profile.bio}}</p>
+                {% for chat in chats.all %}
+                <li><a class="btn btn-warning"href="{% url 'chat' chat.slag %}">Написати повідомлення</a></li>
+                {% endfor %}
+                <li><a class="btn btn-warning" href="{% url 'chats'  %}">Мої повідомлення</a></li>
+                <hr>
+                <li><a class="btn btn-warning" href="{% url 'update_profile' %}">Редагувати профіль</a></li><hr>
+                <li><a class="btn btn-warning" href="#">Редагувати пароль</a></li><hr>
+
+                <div class="comments-wrapper">
+                    <h5>Відгуки: {{profile.profiles.all.count}}</h5>
+                    <hr>
+                    <!--
+                        - Not logged in, output form and say "Register to comment and give room for a message"
+                        - When given username
+                    -->
+                    {% if request.user.is_authenticated %}
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <textarea required class="form-control" placeholder="Leave a comment..."
+                                  name="comment"></textarea>
+                        <br>
+                        <input class="btn btn-warning" type="submit" value="Надіслати">
+                    </form>
+                    {% else %}
+                    <p>Create an account to comment:</p>
+                    <a class="btn btn-primary" href="{% url 'register' %}">Register/Login</a>
+                    {% endif %}
+
+                    <hr>
+                    {% for comment in profile.profiles.all %}
+                    <div class="comment">
+                        <a href="{% url 'profile' comment.author.slug %}"> <img class="author-pic"
+                                                                                src="{{comment.author.profile_pic.url}}">
+                        </a>
+                        <div>
+
+                            <a href="{% url 'profile' comment.author.slug %}"><p class="comment-author">
+                                {{comment.author}}</p></a><h6 class="comment-body">
+                            {{comment.created|date:"M-d-Y"}}</h6>
+                            <p class="comment-body">{{comment.body}}</p>
+
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card card-body bg-transparent">
+
+                <h3  class="btn btn-warning" align="center">Оголошення користувача</h3>
+                <div class="post-wrapper">
+                    {% for post in posts %}
+                    <div>
+                        <div class="post  ">
+                            <img class="thumbnail" src="{{post.thumbnail.url}}">
+                            <div class="post-preview bg-transparent">
+                                <h6 class="post-title">{{post.headline}}</h6>
+                                <p class="post-intro">{{post.sub_headline}}</p>
+                                <a align="center" class="btn btn-warning" href="{% url 'post' post.slug %}">Більше >></a>
+                                <hr>
+
+                                {% if request.user.is_staff %}
+                                <a class="btn btn-warning" href="{% url 'update_post' post.slug %}">Редагувати</a>
+                                <a  class="btn btn-warning"href="{% url 'delete_post' post.slug %}">Видалити</a>
+                                {% endif %}
+                                <hr>
+
+                                <span class="tag">{{post.tags.name}}</span>
+
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <h4>Оголошень не знайдено...</h4>
+                    {% endfor %}
+                </div>
+
+                <div class="row">
+
+                    {% if posts.has_other_pages %}
+
+                    <ul class="pagination">
+
+                        {% if posts.has_previous %}
+                        <li class="page-item"><a data-page="{{posts.previous_page_number}}"
+                                                 href="?page={{posts.previous_page_number}}"
+                                                 class="page-link">&laquo</a>
+                        </li>
+
+                        <li class="page-item"><a data-page="1" href="?page=1" class="page-link">First</a></li>
+                        {% endif %}
+
+
+                        {% for i in posts.paginator.page_range %}
+                        {% if posts.number == i %}
+                        <li class="page-item"><a class="active page-link">{{i}}</a></li>
+                        {% else %}
+                        <li class="page-item"><a data-page="{{i}}" href="?page={{i}}" class="page-link">{{i}}</a></li>
+                        {% endif %}
+
+                        {% endfor %}
+
+
+                        {% if posts.has_next %}
+                        <li class="page-item"><a data-page="{{posts.paginator.num_pages}}"
+                                                 href="?page={{posts.paginator.num_pages}}" class="page-link">Last</a>
+                        </li>
+
+                        <li class="page-item"><a data-page="{{posts.next_page_number}}"
+                                                 href="?page={{posts.next_page_number}}" class="page-link">&raquo</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+
+                    {% endif %}
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    {% endblock content %}

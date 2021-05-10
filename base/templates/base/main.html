@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>Site</title>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-47692315-56"></script>
+    <script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-47692315-56');
+
+    </script>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1"/>
+
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&family=Russo+One&display=swap"
+          rel="stylesheet">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/default.css' %}">
+    <link id="theme-style" rel="stylesheet" type="text/css" href="">
+</head>
+<body>
+<section class="s1">
+    <div class="main-container">
+
+
+        {% include 'base/navbar.html' %}
+        <div id="theme-options-wrapper">
+            <div data-mode="light" id="light-mode" class="theme-dot"></div>
+            <div data-mode="blue" id="blue-mode" class="theme-dot"></div>
+            <div data-mode="green" id="green-mode" class="theme-dot"></div>
+            <div data-mode="purple" id="purple-mode" class="theme-dot"></div>
+        </div>
+        {% block content %}
+        <!-- Content goes here -->
+        {% endblock content %}
+
+    </div>
+
+    <footer>                                                                                                                                                                                                                
+        <p class="text-dark">&copy; Created by Oksana Petriv</p>
+    </footer>
+    </div>
+</section>
+<script type="text/javascript">
+		let static = "{% static 'css' %}"
+
+</script>
+
+<script type="text/javascript" src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

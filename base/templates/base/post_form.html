@@ -1,0 +1,39 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<style type="text/css">
+	#div_id_tags > div{
+		max-height: 100px;
+		overflow-y: scroll;
+		border:1px solid #888;
+		padding: 5px;
+		border-radius: 5px;
+	}
+
+</style>
+<section>
+    <a class="btn btn-warning" href="{% url 'posts' %}">&laquo Назад до оголошень</a>
+</section>
+
+<div class="main-container bg-transparent" >
+<div class="main-container bg-transparent" id="login-form-wrapper">
+
+
+
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.media}}
+        {{form|crispy}}
+
+        <p>Додайте ще якісь фото (не обов'язково):</p>
+        <input type="file" name="images" multiple>
+        <br><br>
+        <input class="btn btn-warning" type="submit" value="Опублікувати оголошення">
+        <hr>
+
+    </form>
+</div>
+</div>
+{% endblock content %}
