@@ -26,5 +26,10 @@ urlpatterns = [
 
     path('chats/', views.chats, name="chats"),
 
+    path('add_order/<slug:slug>', views.addOrder, name="add_order"),
+    path('orders', views.orders, name="orders"),
+
+
+
 
 ]

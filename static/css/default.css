@@ -45,6 +45,8 @@ a{
 	text-decoration: none;
 	color:#17a2b8;
 }
+.messages li.error { background-color: red; }
+.messages li.success { background-color: green; }
 
 ul{
 	list-style: none;

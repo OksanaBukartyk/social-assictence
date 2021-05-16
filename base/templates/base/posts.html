@@ -40,13 +40,13 @@
 				<div class="post-preview bg-transparent">
 					<h6 class="post-title">{{post.headline}}</h6>
 					<p class="post-intro">{{post.sub_headline}}</p>
-					<a href="{% url 'post' post.slug %}">Більше -></a>
-
-					{% if request.user.is_staff %}
-						| <a href="{% url 'update_post' post.slug %}">Редагувати</a>
-						| <a href="{% url 'delete_post' post.slug %}">Видалити</a>
-					{% endif %}
-					<hr>
+					<a class="btn btn-outline-dark btn-warning" href="{% url 'post' post.slug %}">Переглянути оголошення</a>
+<hr>
+                        {% if request.user.is_staff %}
+                             <a class="btn btn-outline-dark btn-warning" href="{% url 'update_post' post.slug %}">Редагувати</a>
+                            | <a class="btn btn-outline-dark btn-warning" href="{% url 'delete_post' post.slug %}">Видалити</a>
+                        {% endif %}
+                        <hr>
 
 						<span class="tag">{{post.tags.name}}</span>
 
@@ -58,38 +58,43 @@
 		{% endfor %}
 	</div>
 
-	<div class="row">
-		
-		{% if posts.has_other_pages %}
+	<div class="center">
+        <div class="pages">
 
-			<ul class="pagination">
+            {% if posts.has_other_pages %}
 
-				{% if posts.has_previous %}
-					<li class="page-item"><a data-page="{{posts.previous_page_number}}" href="?page={{posts.previous_page_number}}" class="page-link">&laquo</a></li>
+                {% if posts.has_previous %}
+                    <a data-page="{{ posts.previous_page_number }}"
+                       href="?page={{ posts.previous_page_number }}"
+                       class="btn btn-outline-dark text-dark">&laquo</a>
 
-					<li class="page-item"><a data-page="1" href="?page=1" class="page-link">First</a></li>
-				{% endif %}
-
-
-				{% for i in posts.paginator.page_range %}
-					{% if posts.number == i %}
-						<li class="page-item"><a class="active page-link">{{i}}</a></li>
-					{% else %}
-						<li class="page-item"><a data-page="{{i}}" href="?page={{i}}" class="page-link">{{i}}</a></li>
-					{% endif %}
-					
-				{% endfor %}
+                    <a data-page="1" href="?page=1" class="btn btn-outline-dark text-dark">First</a>
+                {% endif %}
 
 
-				{% if posts.has_next %}
-					<li class="page-item"><a data-page="{{posts.paginator.num_pages}}" href="?page={{posts.paginator.num_pages}}" class="page-link">Last</a></li>
+                {% for i in posts.paginator.page_range %}
+                    {% if posts.number == i %}
+                        <a class="btn btn-outline-dark btn-warning">{{ i }}</a>
+                    {% else %}
+                        <a data-page="{{ i }}" href="?page={{ i }}"
+                           class="btn btn-outline-dark text-dark">{{ i }}</a>
+                    {% endif %}
 
-					<li class="page-item"><a data-page="{{posts.next_page_number}}" href="?page={{posts.next_page_number}}" class="page-link">&raquo</a></li>
-				{% endif %}
-			</ul>
+                {% endfor %}
 
-		{% endif %}
-	</div>
+
+                {% if posts.has_next %}
+                    <a data-page="{{ posts.paginator.num_pages }}"
+                       href="?page={{ posts.paginator.num_pages }}" class="btn btn-outline-dark text-dark">Last</a>
+
+                    <a data-page="{{ posts.next_page_number }}"
+                       href="?page={{ posts.next_page_number }}" class="btn btn-outline-dark text-dark">&raquo</a>
+                {% endif %}
+
+            {% endif %}
+        </div>
+    </div>
+    </br>
 </div>
 
 

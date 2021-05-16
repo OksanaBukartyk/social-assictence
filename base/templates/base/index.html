@@ -18,6 +18,7 @@
             text-align: left; /* Выравнивание по левому краю */
         }
 
+
         TD, TH {
             padding: 5px; /* Поля вокруг текста */
         }
@@ -43,6 +44,8 @@
             background-color: white;
         }
 
+
+
     </style>
 
     <div class="bd-example">
@@ -60,87 +63,104 @@
     </br>
     <div class="container">
         <form id="searchForm" method="GET">
-            {{ myFilter.form|crispy }}
 
-            <input class="btn btn-warning" type="submit" value="Пошук">
         </form>
 
         </br>
 
         <table>
             <tr>
-                <td><span class="catsTd" valign="top" id="cid2">
-                        <a
-                                href="https://darom.net.ua/board/odezhda_i_obuv/2"><img
-                                src="https://darom.net.ua/images/icons/high-heels.png"></a>
-						<a href="/board/odezhda_i_obuv/2" class="catName">Одежда3 и обувь</a>
+                <td><span class="catsTd" valign="top" id="cid1">
+                        <a href="https://darom.net.ua/board/odezhda_i_obuv/2">
+                            <img src="{% static 'images/images/baby.png' %}" width="35%"></a>
+						<a href="/board/odezhda_i_obuv/2" class="catName">Дитячий світ</a>
                         <span class="catNumData" style="unicode-bidi:embed;">5</span>
-					</span></li>
+					</span>
                 </td>
-                <td><span class="catsTd" valign="top" id="cid1"><a
-                        href="https://darom.net.ua/board/detskij_mir/1" title="Детский мир"><img
-                        src="https://darom.net.ua/images/icons/stroller.png" alt="Детский мир"></a>
-						<a href="/board/detskij_mir/1" class="catName">Детский мир</a>
-						 <span class="catNumData" style="unicode-bidi:embed;">5</span>
-						<div class="catDescr"><img class="cat-icon" src="/images/icons/stroller.png"
-                                                   style="display: none;"></div>
-					</span></td>
-                <td><span class="catsTd" valign="top" id="cid3"><a
-                        href="https://darom.net.ua/board/khobbi_otdykh_i_sport/3" title="Хобби, отдых и спорт"><img
-                        src="https://darom.net.ua/images/icons/guitar.png" alt="Хобби, отдых и спорт"></a>
-						<a href="/board/khobbi_otdykh_i_sport/3" class="catName">Хобби, отдых и спорт</a>
-						 <span class="catNumData" style="unicode-bidi:embed;">0</span>
-						<div class="catDescr"><img class="cat-icon" src="/images/icons/guitar.png"
-                                                   style="display: none;"></div>
-					</span></td>
-                <td><span class="catsTd" valign="top" id="cid4"><a
-                        href="https://darom.net.ua/board/zhivotnye/4" title="Животные"><img
-                        src="https://darom.net.ua/images/icons/pawprint.png" alt="Животные"></a>
-						<a href="/board/zhivotnye/4" class="catName">Животные</a>
-						 <span class="catNumData" style="unicode-bidi:embed;">7</span>
-						<div class="catDescr"><img class="cat-icon" src="/images/icons/pawprint.png"
-                                                   style="display: none;"></div>
-					</span></td>
-
+                <td><span class="catsTd" valign="top" id="cid2">
+                        <a href="https://darom.net.ua/board/odezhda_i_obuv/2">
+                            <img src="{% static 'images/images/dress.png' %}" width="35%"></a>
+						<a href="/board/odezhda_i_obuv/2" class="catName">Одяг та взуття</a>
+                        <span class="catNumData" style="unicode-bidi:embed;">5</span>
+					</span>
+                </td>
+                <td><span class="catsTd" valign="top" id="cid3">
+                        <a href="https://darom.net.ua/board/odezhda_i_obuv/2">
+                            <img src="{% static 'images/images/accessories.png' %}" width="35%"></a>
+						<a href="/board/odezhda_i_obuv/2" class="catName">Аксесуари</a>
+                        <span class="catNumData" style="unicode-bidi:embed;">5</span>
+					</span>
+                </td>
+                <td><span class="catsTd" valign="top" id="cid4">
+                        <a href="https://darom.net.ua/board/odezhda_i_obuv/2">
+                            <img src="{% static 'images/images/beauty.png' %}" width="35%"></a>
+						<a href="/board/odezhda_i_obuv/2" class="catName">Краса та здоров'я</a>
+                        <span class="catNumData" style="unicode-bidi:embed;">5</span>
+					</span>
+                </td>
             </tr>
-
             <tr>
-                <td><span class="catsTd" valign="top" id="cid5"><a
-                        href="https://darom.net.ua/board/aksessuary/5" title="Аксессуары"><img
-                        src="https://darom.net.ua/images/icons/suitcase.png" alt="Аксессуары"></a>
-						<a href="/board/aksessuary/5" class="catName">Аксессуары</a>
-						 <span class="catNumData" style="unicode-bidi:embed;">8</span>
-						<div class="catDescr"><img class="cat-icon" src="/images/icons/suitcase.png"
-                                                   style="display: none;"></div>
+                <td><span class="catsTd" valign="top" id="cid5">
+                        <a href="https://darom.net.ua/board/odezhda_i_obuv/2">
+                            <img src="{% static 'images/images/furniture.png' %}" width="35%"></a>
+						<a href="/board/odezhda_i_obuv/2" class="catName">Меблі</a>
+                        <span class="catNumData" style="unicode-bidi:embed;">5</span>
 					</span>
                 </td>
-                <td><span class="catsTd" valign="top" id="cid7"><a
-                        href="https://darom.net.ua/board/mebel/7" title="Мебель"><img
-                        src="https://darom.net.ua/images/icons/armchair.png" alt="Мебель"></a>
-						<a href="/board/mebel/7" class="catName">Мебель</a>
-						 <span class="catNumData" style="unicode-bidi:embed;">2</span>
-						<div class="catDescr"><img class="cat-icon" src="/images/icons/armchair.png"
-                                                   style="display: none;"></div>
-					</span></td>
-                <td>
-       <span class="catsTd" valign="top" id="cid6"><a
-               href="https://darom.net.ua/board/ehlektronika_i_tehnika/6" title="Техника"><img
-               src="https://darom.net.ua/images/icons/technology.png" alt="Техника"></a>
-						<a href="/board/ehlektronika_i_tehnika/6" class="catName">Техника</a>
-						 <span class="catNumData" style="unicode-bidi:embed;">6</span>
-						<div class="catDescr"><img class="cat-icon" src="/images/icons/technology.png"
-                                                   style="display: none;"></div>
+                <td><span class="catsTd" valign="top" id="cid6">
+                        <a href="https://darom.net.ua/board/odezhda_i_obuv/2">
+                            <img src="https://darom.net.ua/images/icons/high-heels.png"></a>
+						<a href="/board/odezhda_i_obuv/2" class="catName">Предмети інтер'єру</a>
+                        <span class="catNumData" style="unicode-bidi:embed;">5</span>
 					</span>
                 </td>
-                <td><span style="width:100%" class="catsTd" valign="top" id="cid8"><a
-                        href="https://darom.net.ua/board/dom_i_byt/8" title="Дом и быт"><img
-                        src="https://darom.net.ua/images/icons/house.png" alt="Дом и быт"></a>
-						<a href="/board/dom_i_byt/8" class="catName">Дом и быт</a>
-						 <span class="catNumData" style="unicode-bidi:embed;">5</span>
-						<div class="catDescr"><img class="cat-icon" src="/images/icons/house.png"
-                                                   style="display: none;"></div>
-					</span></td>
+                <td><span class="catsTd" valign="top" id="cid7">
+                        <a href="https://darom.net.ua/board/odezhda_i_obuv/2">
+                            <img src="https://darom.net.ua/images/icons/high-heels.png"></a>
+						<a href="/board/odezhda_i_obuv/2" class="catName">Інструменти</a>
+                        <span class="catNumData" style="unicode-bidi:embed;">5</span>
+					</span>
+                </td>
+                <td><span class="catsTd" valign="top" id="cid8">
+                        <a href="https://darom.net.ua/board/odezhda_i_obuv/2">
+                            <img src="https://darom.net.ua/images/icons/high-heels.png"></a>
+						<a href="/board/odezhda_i_obuv/2" class="catName">Посуд/кухонне приладдя</a>
+                        <span class="catNumData" style="unicode-bidi:embed;">5</span>
+					</span>
+                </td>
             </tr>
+            <tr>
+                <td><span class="catsTd" valign="top" id="cid9">
+                        <a href="https://darom.net.ua/board/odezhda_i_obuv/2">
+                            <img src="https://darom.net.ua/images/icons/high-heels.png"></a>
+						<a href="/board/odezhda_i_obuv/2" class="catName">Будівництво і ремонт</a>
+                        <span class="catNumData" style="unicode-bidi:embed;">5</span>
+					</span>
+                </td>
+                <td><span class="catsTd" valign="top" id="cid10">
+                        <a href="https://darom.net.ua/board/odezhda_i_obuv/2">
+                            <img src="https://darom.net.ua/images/icons/high-heels.png"></a>
+						<a href="/board/odezhda_i_obuv/2" class="catName">Рослини та тварини</a>
+                        <span class="catNumData" style="unicode-bidi:embed;">5</span>
+					</span>
+                </td>
+                <td><span class="catsTd" valign="top" id="cid11">
+                        <a href="https://darom.net.ua/board/odezhda_i_obuv/2">
+                            <img src="{% static 'images/images/food.png' %}" width="35%"></a>
+						<a href="/board/odezhda_i_obuv/2" class="catName">Продукти харчування</a>
+                        <span class="catNumData" style="unicode-bidi:embed;">5</span>
+					</span>
+                </td>
+                <td><span class="catsTd" valign="top" id="cid12">
+                        <a href="https://darom.net.ua/board/odezhda_i_obuv/2">
+                            <img src="https://darom.net.ua/images/icons/high-heels.png"></a>
+						<a href="/board/odezhda_i_obuv/2" class="catName">Інше</a>
+                        <span class="catNumData" style="unicode-bidi:embed;">5</span>
+					</span>
+                </td>
+            </tr>
+
+
         </table>
     </div>
 
@@ -158,11 +178,11 @@
                     <div class="post-preview bg-transparent">
                         <h6 class="post-title">{{ post.headline }}</h6>
                         <p class="post-intro">{{ post.sub_headline }}</p>
-                        <a href="{% url 'post' post.slug %}">Більше -></a>
-
+                        <a class="btn btn-outline-dark btn-warning" href="{% url 'post' post.slug %}">Переглянути оголошення</a>
+<hr>
                         {% if request.user.is_staff %}
-                            | <a href="{% url 'update_post' post.slug %}">Редагувати</a>
-                            | <a href="{% url 'delete_post' post.slug %}">Видалити</a>
+                             <a class="btn btn-outline-dark btn-warning" href="{% url 'update_post' post.slug %}">Редагувати</a>
+                            | <a class="btn btn-outline-dark btn-warning" href="{% url 'delete_post' post.slug %}">Видалити</a>
                         {% endif %}
                         <hr>
 
@@ -175,46 +195,43 @@
             <h4>Оголошень не знайдено...</h4>
         {% endfor %}
     </div>
+    <div class="center">
+        <div class="pages">
 
-    <div class="row">
-
-        {% if posts.has_other_pages %}
-
-            <ul class="pagination">
+            {% if posts.has_other_pages %}
 
                 {% if posts.has_previous %}
-                    <li class="page-item"><a data-page="{{ posts.previous_page_number }}"
-                                             href="?page={{ posts.previous_page_number }}"
-                                             class="page-link">&laquo</a></li>
+                    <a data-page="{{ posts.previous_page_number }}"
+                       href="?page={{ posts.previous_page_number }}"
+                       class="btn btn-outline-dark text-dark">&laquo</a>
 
-                    <li class="page-item"><a data-page="1" href="?page=1" class="page-link">First</a></li>
+                    <a data-page="1" href="?page=1" class="btn btn-outline-dark text-dark">На початок</a>
                 {% endif %}
 
 
                 {% for i in posts.paginator.page_range %}
                     {% if posts.number == i %}
-                        <li class="page-item"><a class="active page-link">{{ i }}</a></li>
+                        <a class="btn btn-outline-dark btn-warning">{{ i }}</a>
                     {% else %}
-                        <li class="page-item"><a data-page="{{ i }}" href="?page={{ i }}"
-                                                 class="page-link">{{ i }}</a></li>
+                        <a data-page="{{ i }}" href="?page={{ i }}"
+                           class="btn btn-outline-dark text-dark">{{ i }}</a>
                     {% endif %}
 
                 {% endfor %}
 
 
                 {% if posts.has_next %}
-                    <li class="page-item"><a data-page="{{ posts.paginator.num_pages }}"
-                                             href="?page={{ posts.paginator.num_pages }}" class="page-link">Last</a>
-                    </li>
+                    <a data-page="{{ posts.paginator.num_pages }}"
+                       href="?page={{ posts.paginator.num_pages }}" class="btn btn-outline-dark text-dark">В кінець</a>
 
-                    <li class="page-item"><a data-page="{{ posts.next_page_number }}"
-                                             href="?page={{ posts.next_page_number }}" class="page-link">&raquo</a>
-                    </li>
+                    <a data-page="{{ posts.next_page_number }}"
+                       href="?page={{ posts.next_page_number }}" class="btn btn-outline-dark text-dark">&raquo</a>
                 {% endif %}
-            </ul>
 
-        {% endif %}
+            {% endif %}
+        </div>
     </div>
+    </br>
     <section class="s2">
         <div class="main-container">
             <a href=""></a>
@@ -237,10 +254,13 @@
                 <label>Повідомлення</label>
                 <textarea required class="input-field" name="message"></textarea>
 
-                <input class="btn btn-warning btn-lg btn-block" type="submit" value="Надіслати">
+                <input class="btn btn-outline-dark btn-warning btn-lg btn-block" type="submit" value="Надіслати">
             </form>
         </div>
+
     </section>
+
+
 
     </div>
 

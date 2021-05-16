@@ -19,13 +19,13 @@ from .models import *
 
 # Create your views here.
 def posts(request):
-    posts = Post.objects.filter(active=True)
+    posts = Post.objects.filter(active=True).order_by('-created')
     myFilter = PostFilterName(request.GET, queryset=posts)
     posts = myFilter.qs
 
     page = request.GET.get('page')
 
-    paginator = Paginator(posts, 5)
+    paginator = Paginator(posts, 3)
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:
@@ -38,13 +38,13 @@ def posts(request):
 
 
 def home(request):
-    posts = Post.objects.filter(active=True)
+    posts = Post.objects.filter(active=True).order_by('-created')
     myFilter = PostFilterName(request.GET, queryset=posts)
     posts = myFilter.qs
 
     page = request.GET.get('page')
 
-    paginator = Paginator(posts, 5)
+    paginator = Paginator(posts, 3)
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:
@@ -75,7 +75,7 @@ def post(request, slug):
 
 
 def my_posts(request):
-    posts = Post.objects.filter(active=True, author=request.user.profile)
+    posts = Post.objects.filter(active=True, author=request.user.profile).order_by('-created')
     myFilter = PostFilter(request.GET, queryset=posts)
     posts = myFilter.qs
 
@@ -95,7 +95,7 @@ def my_posts(request):
 
 
 # CRUD VIEWS
-@admin_only
+#@admin_only
 @login_required(login_url="home")
 def createPost(request):
     form = PostForm()
@@ -238,14 +238,14 @@ def logoutUser(request):
 
 def profile(request, username):
     user=User.objects.get(username=username)
-    #profile = Profile.objects.get(user = user)
+    profile = Profile.objects.get(user = user)
     chats = (Chat.objects.filter(sender=request.user.profile, recipient=user.profile) |
              Chat.objects.filter(sender=user.profile, recipient=request.user.profile)).first()
-    posts = Post.objects.filter(active=True, author=request.user.profile)
+    posts = Post.objects.filter(active=True, author=request.user.profile).order_by('-created')
 
     page = request.GET.get('page')
 
-    paginator = Paginator(posts, 5)
+    paginator = Paginator(posts, 6)
 
     try:
         posts = paginator.page(page)
@@ -254,11 +254,11 @@ def profile(request, username):
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
 
-    if chats == None:
+    """if chats == None:
         chats = Chat.objects.create(
             sender=request.user.profile,
             recipient=profile)
-
+"""
     if request.method == 'POST':
         ProfileComment.objects.create(
             author=request.user.profile,
@@ -287,7 +287,7 @@ def updateProfile(request):
         form = ProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
-            return redirect('profile', slug=profile.slug)
+            return redirect('profile', username=user.username)
 
     context = {'form': form}
     return render(request, 'base/profile_form.html', context)
@@ -333,3 +333,41 @@ class DialogsView():
     def get(self, request):
         chats = Chat.objects.filter(members__in=[request.user.id])
         return render(request, 'users/dialogs.html', {'user_profile': request.user, 'chats': chats})
+
+
+def addOrder(request, slug):
+    post = Post.objects.get(slug=slug)
+    #order=Order.objects.пуе(post=post, customer=request.user.profile)
+    if not Order.objects.filter(post=post, customer=request.user.profile).exists():
+        Order.objects.create(
+                customer=request.user.profile,
+                post=post,
+                status=False,
+            )
+        messages.success (request, "You're order was successfuly added!")
+
+        return redirect('post', slug=post.slug)
+    else:
+        messages.error(request, "Уже там ")
+        return redirect('post', slug=post.slug)
+
+
+def orders(request):
+    posts = Order.objects.filter(status=False, customer=request.user.profile)
+
+
+
+    page = request.GET.get('page')
+
+    paginator = Paginator(posts, 1)
+
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+
+    context = {'posts': posts}
+    return render(request, 'base/orders.html', context)
+

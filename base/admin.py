@@ -13,5 +13,6 @@ admin.site.register(ProfileComment)
 admin.site.register(Image)
 admin.site.register(Chat)
 admin.site.register(Message)
+admin.site.register(Order)
 
 

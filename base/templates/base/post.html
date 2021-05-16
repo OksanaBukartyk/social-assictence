@@ -75,6 +75,9 @@
 	}
 </style>
 
+
+<div class="main-container">
+<br>
 <a class="btn btn-warning" href="{% url 'my_posts' %}">&laquo Back to My Posts</a>
 
 {% if request.user.is_staff %}
@@ -82,9 +85,7 @@
 <a class="btn btn-outline-danger" href="{% url 'delete_post' post.slug %}">Delete</a>
 {% endif %}
 
-
-<div class="main-container">
-    <br>
+    <hr>
     <div class="row">
         <div class="col-md-8">
             <div class="card card-body bg-transparent" id="product-info-box">
@@ -97,7 +98,7 @@
 
                     <p align="left">Категорія: {{post.product_category.name}}/ {{post.tags}}</p>
                     <p align="left">Дата створення: {{post.created}}</p>
-                    <p align="left">Доставка: {{post.created}}</p>
+                    <p align="left">Варіанти доставки: {{post.created}}</p>
                 </div>
             </div>
         </div>
@@ -105,12 +106,12 @@
             <div class="card card-body bg-transparent" id="user-info-box">
                 <img id="user_pic" src="{{post.author.profile_pic.url}}">
                 <br>
-                <p align="center"><font size="4" color="black" face="Arial">Автор: {{post.author}}</font></p>
-                <li><a class="btn btn-warning" href="#">Написати повідомлення</a></li>
-                <hr>
-                <li><a class="btn btn-warning" href="#">Замовити</a></li>
-                <hr>
-                <li><a class="btn btn-warning" href="#">Переглянути профіль</a></li>
+                <a class="btn btn-outline-warning text-dark font-weight-bold btn-lg " href="{% url 'profile' post.author.user.username %}">{{post.author.user.username}}</a>
+                 <br>
+                <li><a class="btn btn-outline-dark btn-warning" href="#">Написати повідомлення</a></li>
+                <br>
+                <li><a class="btn btn-outline-dark btn-warning" href="{% url 'add_order' post.slug %}">Замовити</a></li>
+                <br>
 
             </div>
         </div>
@@ -160,12 +161,12 @@
                 {% for comment in post.postcomment_set.all %}
                 <hr>
                 <div class="col-md-3">
-                    <a href="{% url 'profile' comment.author.slug %}"> <img class="author-pic"
+                    <a href="{% url 'profile' comment.author.user.username %}"> <img class="author-pic"
                                                                             src="{{comment.author.profile_pic.url}}">
                     </a>
                 </div>
                 <div class="col-md-9">
-                    <a href="{% url 'profile' comment.author.slug %}">{{comment.author}}</a> <p class="comment-body">{{comment.created|date:"M-d-Y"}}</p>
+                    <a href="{% url 'profile' comment.author.user.username %}">{{comment.author.user.username}}</a> <p class="comment-body">{{comment.created|date:"M-d-Y"}}</p>
 
                     <h3 class="comment-body">{{comment.body}}</h3>
                 </div>

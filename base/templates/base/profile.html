@@ -2,122 +2,136 @@
 {% load static %}
 {% block content %}
 
-<style type="text/css">
-	#user_pic{
-		height: 200px;
-		width: 200px;
-		border-radius: 50%;
-		border:5px solid #888;
-		margin:0 auto;
-		object-fit: cover;
-	}
-	A {
-    color: yellow; /* Цвет ссылок */
-   }
-    A:hover {
-    color : white;}
-
-	#user-info-box{
-		text-align: center;
+    <style type="text/css">
+        #user_pic {
+            height: 200px;
+            width: 200px;
+            border-radius: 50%;
+            border: 5px solid #888;
+            margin: 0 auto;
+            object-fit: cover;
+        }
 
 
-	}
-	.comments-wrapper{
-		margin-top: 50px;
-		padding: 10px;
-		border:1px solid var(--borderColor);
-		-webkit-box-shadow: -1px 1px 3px -1px rgba(0,0,0,0.75);
-		-moz-box-shadow: -1px 1px 3px -1px rgba(0,0,0,0.75);
-		box-shadow: -1px 1px 3px -1px rgba(0,0,0,0.75);
-	}
 
-	.comment{
-		display: flex;
-		padding: 15px;
-	}
+        #user-info-box {
+            text-align: center;
 
-	.comment-author{
-		font-size: 14px;
-		font-weight: 700;
-		color: rgb(30, 174, 219) !important;
-		margin: 2px;
-	}
 
-	.author-pic{
-		width: 50px;
-		height: 50px;
-		border-radius: 50%;
-		margin-right: 10px;
-	}
+        }
 
-	.comment-body{
+        .comments-wrapper {
+            margin-top: 5px;
+            padding: 10px;
+            border: 1px solid var(--borderColor);
+            -webkit-box-shadow: -1px 1px 3px -1px rgba(0, 0, 0, 0.75);
+            -moz-box-shadow: -1px 1px 3px -1px rgba(0, 0, 0, 0.75);
+            box-shadow: -1px 1px 3px -1px rgba(0, 0, 0, 0.75);
+        }
 
-		font-size: 14px;
-	}
+        .comment {
+            display: flex;
+            padding: 1px;
+        }
 
-</style>
+        .comment-author {
+            font-size: 14px;
+            font-weight: 700;
+            color: black;
 
-<div class="main-container">
+
+        }
+
+        .author-pic {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .comment-date {
+
+            font-size: 10px;
+        }
+
+        .comment-body {
+
+            font-size: 14px;
+        }
+
+    </style>
+
+    <div class="main-container">
     <br>
     <div class="row">
         <div class="col-md-4">
             <div class="card card-body bg-transparent" id="user-info-box">
-                <img id="user_pic" src="{{user.profile.profile_pic.url}}">
+                <img id="user_pic" src="{{ user.profile.profile_pic.url }}">
                 <br>
-                <h2 align="center"><font size="6" color="black" face="Arial">{{user.first_name}} {{user.last_name}}</font></h2>
+                <h2 align="center"><font size="6" color="black"
+                                         face="Arial">{{ user.first_name }} {{ user.last_name }}</font></h2>
 
-                <p align="center"><font size="4" color="black" face="Arial">E-mail: {{user.email}}</font></p>
+                <p align="center"><font size="4" color="black" face="Arial">E-mail: {{ user.email }}</font></p>
 
-                <p>{{user.profile.bio}}</p>
+                <p>{{ user.profile.bio }}</p>
                 {% for chat in chats.all %}
-                <li><a class="btn btn-warning"href="{% url 'chat' chat.slag %}">Написати повідомлення</a></li>
+                    <li><a class="btn btn-outline-dark btn-warning" href="{% url 'chat' chat.slag %}">Написати
+                        повідомлення</a></li>
                 {% endfor %}
-                <li><a class="btn btn-warning" href="{% url 'chats'  %}">Мої повідомлення</a></li>
+                <li><a class="btn btn-outline-dark btn-warning" href="{% url 'chats' %}">Мої повідомлення</a></li>
                 <hr>
-                <li><a class="btn btn-warning" href="{% url 'update_profile' %}">Редагувати профіль</a></li><hr>
-                <li><a class="btn btn-warning" href="#">Редагувати пароль</a></li><hr>
+                <li><a class="btn btn-outline-dark btn-warning" href="{% url 'update_profile' %}">Редагувати профіль</a>
+                </li>
+                <hr>
+                <li><a class="btn btn-outline-dark btn-warning" href="#">Редагувати пароль</a></li>
+                <li><a class="btn btn-outline-dark btn-warning" href="{% url 'orders' %}">Замовлення мої</a></li>
+                <hr>
                 <div id="theme-options-wrapper">
-        <div data-mode="light" id="light-mode" class="theme-dot"></div>
-        <div data-mode="blue" id="blue-mode" class="theme-dot"></div>
-        <div data-mode="green" id="green-mode" class="theme-dot"></div>
-        <div data-mode="purple" id="purple-mode" class="theme-dot"></div>
-    </div>
+                    <div data-mode="light" id="light-mode" class="theme-dot"></div>
+                    <div data-mode="blue" id="blue-mode" class="theme-dot"></div>
+                    <div data-mode="green" id="green-mode" class="theme-dot"></div>
+                    <div data-mode="purple" id="purple-mode" class="theme-dot"></div>
+                </div>
 
                 <div class="comments-wrapper">
-                    <h5>Відгуки: {{profile.profiles.all.count}}</h5>
+                    <h5>Відгуки: {{ user.profile.profiles.all.count }}</h5>
                     <hr>
                     <!--
                         - Not logged in, output form and say "Register to comment and give room for a message"
                         - When given username
                     -->
                     {% if request.user.is_authenticated %}
-                    <form action="" method="POST">
-                        {% csrf_token %}
-                        <textarea required class="form-control" placeholder="Leave a comment..."
-                                  name="comment"></textarea>
-                        <br>
-                        <input class="btn btn-warning" type="submit" value="Надіслати">
-                    </form>
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <textarea required class="form-control" placeholder="Написати відгук..."
+                                      name="comment"></textarea>
+                            <br>
+                            <input class="btn btn-outline-dark btn-warning" type="submit" value="Надіслати">
+                        </form>
                     {% else %}
-                    <p>Create an account to comment:</p>
-                    <a class="btn btn-primary" href="{% url 'register' %}">Register/Login</a>
+                        <p>Зареєструйтесь, щоб залишити відгук:</p>
+                        <a class="btn btn-primary" href="{% url 'register' %}">Реєстрація/Вхід</a>
                     {% endif %}
 
                     <hr>
-                    {% for comment in profile.profiles.all %}
-                    <div class="comment">
-                        <a href="{% url 'profile' comment.author.slug %}"> <img class="author-pic"
-                                                                                src="{{comment.author.profile_pic.url}}">
-                        </a>
-                        <div>
+                    {% for comment in user.profile.profiles.all %}
+                        <div class="comment">
+                            <div class="col-md-4">
+                                <a href="{% url 'profile' comment.author.user.username %}"> <img class="author-pic"
+                                                                                                 src="{{ comment.author.profile_pic.url }}">
+                                </a></div>
+                            <div class="col-md-8">
 
-                            <a href="{% url 'profile' comment.author.slug %}"><p class="comment-author">
-                                {{comment.author}}</p></a><h6 class="comment-body">
-                            {{comment.created|date:"M-d-Y"}}</h6>
-                            <p class="comment-body">{{comment.body}}</p>
+                                <a href="{% url 'profile' comment.author.user.username %}"><p align="left"
+                                                                                              class="comment-author">
+                                    {{ comment.author.user.username }}</p></a>
+                                <p align="left" class="comment-body">{{ comment.body }}</p>
+                                <p align="right" class="comment-date">{{ comment.created|date:"M-d-Y" }}</p>
+                                <hr>
+                            </div>
+
 
                         </div>
-                    </div>
                     {% endfor %}
                 </div>
             </div>
@@ -125,79 +139,80 @@
         <div class="col-md-8">
             <div class="card card-body bg-transparent">
 
-                <h3  class="btn btn-warning" align="center">Оголошення користувача</h3>
+                <h3 class="btn btn-warning" align="center">Оголошення користувача</h3>
                 <div class="post-wrapper">
                     {% for post in posts %}
-                    <div>
-                        <div class="post  ">
-                            <img class="thumbnail" src="{{post.thumbnail.url}}">
-                            <div class="post-preview bg-transparent">
-                                <h6 class="post-title">{{post.headline}}</h6>
-                                <p class="post-intro">{{post.sub_headline}}</p>
-                                <a align="center" class="btn btn-warning" href="{% url 'post' post.slug %}">Більше >></a>
-                                <hr>
+                        <div>
+                            <div class="post">
+                                <img class="thumbnail" src="{{ post.thumbnail.url }}">
+                                <div class="post-preview bg-transparent">
+                                    <h6 class="post-title">{{ post.headline }}</h6>
+                                    <p class="post-intro">{{ post.sub_headline }}</p>
+                                    <a align="center" class="btn btn-outline-dark btn-warning"
+                                       href="{% url 'post' post.slug %}">Переглянути оголошення</a>
+                                    <hr>
 
-                                {% if request.user.is_staff %}
-                                <a class="btn btn-warning" href="{% url 'update_post' post.slug %}">Редагувати</a>
-                                <a  class="btn btn-warning"href="{% url 'delete_post' post.slug %}">Видалити</a>
-                                {% endif %}
-                                <hr>
+                                    {% if request.user.is_staff %}
+                                        <a class="btn btn-outline-dark btn-warning"
+                                           href="{% url 'update_post' post.slug %}">Редагувати</a>
+                                        | <a class="btn btn-outline-dark btn-warning"
+                                            href="{% url 'delete_post' post.slug %}">Видалити</a>
+                                    {% endif %}
+                                    <hr>
 
-                                <span class="tag">{{post.tags.name}}</span>
+                                    <span class="tag">{{ post.tags.name }}</span>
 
+                                </div>
                             </div>
                         </div>
-                    </div>
                     {% empty %}
-                    <h4>Оголошень не знайдено...</h4>
+                        <h4>Оголошень не знайдено...</h4>
                     {% endfor %}
                 </div>
 
-                <div class="row">
+                <div class="center">
+        <div class="pages">
 
-                    {% if posts.has_other_pages %}
+            {% if posts.has_other_pages %}
 
-                    <ul class="pagination">
+                {% if posts.has_previous %}
+                    <a data-page="{{ posts.previous_page_number }}"
+                       href="?page={{ posts.previous_page_number }}"
+                       class="btn btn-outline-dark text-dark">&laquo</a>
 
-                        {% if posts.has_previous %}
-                        <li class="page-item"><a data-page="{{posts.previous_page_number}}"
-                                                 href="?page={{posts.previous_page_number}}"
-                                                 class="page-link">&laquo</a>
-                        </li>
-
-                        <li class="page-item"><a data-page="1" href="?page=1" class="page-link">First</a></li>
-                        {% endif %}
+                    <a data-page="1" href="?page=1" class="btn btn-outline-dark text-dark">На початок</a>
+                {% endif %}
 
 
-                        {% for i in posts.paginator.page_range %}
-                        {% if posts.number == i %}
-                        <li class="page-item"><a class="active page-link">{{i}}</a></li>
-                        {% else %}
-                        <li class="page-item"><a data-page="{{i}}" href="?page={{i}}" class="page-link">{{i}}</a></li>
-                        {% endif %}
-
-                        {% endfor %}
-
-
-                        {% if posts.has_next %}
-                        <li class="page-item"><a data-page="{{posts.paginator.num_pages}}"
-                                                 href="?page={{posts.paginator.num_pages}}" class="page-link">Last</a>
-                        </li>
-
-                        <li class="page-item"><a data-page="{{posts.next_page_number}}"
-                                                 href="?page={{posts.next_page_number}}" class="page-link">&raquo</a>
-                        </li>
-                        {% endif %}
-                    </ul>
-
+                {% for i in posts.paginator.page_range %}
+                    {% if posts.number == i %}
+                        <a class="btn btn-outline-dark btn-warning">{{ i }}</a>
+                    {% else %}
+                        <a data-page="{{ i }}" href="?page={{ i }}"
+                           class="btn btn-outline-dark text-dark">{{ i }}</a>
                     {% endif %}
-                </div>
+
+                {% endfor %}
+
+
+                {% if posts.has_next %}
+                    <a data-page="{{ posts.paginator.num_pages }}"
+                       href="?page={{ posts.paginator.num_pages }}" class="btn btn-outline-dark text-dark">В кінець</a>
+
+                    <a data-page="{{ posts.next_page_number }}"
+                       href="?page={{ posts.next_page_number }}" class="btn btn-outline-dark text-dark">&raquo</a>
+                {% endif %}
+
+            {% endif %}
+        </div>
+    </div>
+    </br>
             </div>
 
 
         </div>
 
     </div>
+    </div>
 
-
-    {% endblock content %}
+{% endblock content %}

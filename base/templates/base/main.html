@@ -39,9 +39,45 @@
 </head>
 <body>
 <section class="s1">
+    <style type="text/css">
+
+        .center {
+            text-align: center;
+        }
+        A {
+            color: yellow; /* Цвет ссылок */
+        }
+
+        A:hover {
+            color: white;
+        }
+
+        .messages li.error {
+            color: red;
+            text-align: center;
+            background-color: slategrey;
+        }
+
+        .messages li.success {
+            color: darkgreen;
+            text-align: center;
+            background-color: slategrey;
+        }
+
+
+    </style>
     <div class="main-container">
         {% include 'base/navbar.html' %}
     </div>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                    {{ message }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
     {% block content %}
         <!-- Content goes here -->
     {% endblock content %}

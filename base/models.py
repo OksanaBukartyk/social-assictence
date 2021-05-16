@@ -157,3 +157,14 @@ class Message(models.Model):
     def created_dynamic(self):
         now = timezone.now()
         return now
+
+class Order(models.Model):
+    post = models.ForeignKey(Post, related_name='post', on_delete=models.CASCADE, null=True, blank=True)
+    customer = models.ForeignKey(Profile, related_name='customer', on_delete=models.CASCADE, null=True, blank=True)
+    status = models.BooleanField(default=True)
+    created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+
+    @property
+    def created_dynamic(self):
+        now = timezone.now()
+        return now
