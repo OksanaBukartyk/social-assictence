@@ -1,83 +1,78 @@
 {% load static %}
-<div class="nav-wrapper">
 
-    <!-- Link around dots-wrapper added after tutorial video -->
-    <a href="{% url 'home' %}">
-        <div class="dots-wrapper">
-            <div id="dot-1" class="browser-dot"></div>
-            <div id="dot-2" class="browser-dot"></div>
-            <div id="dot-3" class="browser-dot"></div>
-        </div>
-    </a>
+<style type="text/css">
+    ul.topnav {
+        margin: 0;
+        padding: 5px;
+        overflow: hidden;
+    }
 
+    ul.topnav li {
+        float: left;
+    }
 
-    <ul id="navigation">
-        <h2 id="close-btn" style="text-align: center">X</h2>
-        {% if request.user.is_staff %}
+    ul.topnav li a {
+        display: block;
+        color: black;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
 
-            admin panel
-        {% endif %}
-        <li><a href="{% url 'home' %}#contact">Контакти</a></li>
-        <a class="btn btn-outline-dark btn-warning" href="{% url 'posts' %}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
-                 viewBox="0 0 16 16">
-                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-            </svg>
-            Пошук</a>
+    ul.topnav li a:hover:not(.active) {
+        background-color: grey;
+    }
 
-        {% if request.user.is_authenticated %}
-            <a class="btn btn-outline-dark btn-warning" href="{% url 'create_post' %}">Створити оголошення</a>
-            <li><a href="{% url 'my_posts' %}">Мої товари</a></li>
-            <li><a href="{% url 'chats' %}">Мої повідомленя</a></li>
-            <li><img width="30" height="30" src=" {{ request.user.profile.profile_pic.url }}"></li>
+    ul.topnav li.right {
+        float: right;
+    }
 
-            <li><a href="{% url 'profile' request.user.username %}">Профіль</a></li>
-
-            <li><a href="{% url 'logout' %}">Вихід</a></li>
-        {% else %}
-            <li><a href="{% url 'login' %}">Вхід</a></li>
-        {% endif %}
-    </ul>
-
-
-</div>
-
-
-<script type="text/javascript">
-    let menu = 'closed'
-
-    let menuIcon = document.getElementById('menu-icon')
-    let navigation = document.getElementById('navigation')
-    let closeBtn = document.getElementById('close-btn')
-
-    menuIcon.addEventListener('click', toggleMenu)
-    closeBtn.addEventListener('click', toggleMenu)
-
-
-    function toggleMenu() {
-        if (menu == 'closed') {
-            navigation.style.display = 'block'
-            closeBtn.style.display = 'block'
-            menu = 'open'
-        } else {
-            navigation.style.display = 'none'
-            closeBtn.style.display = 'none'
-            menu = 'closed'
+    @media screen and (max-width: 1110px) {
+        ul.topnav li.right,
+        ul.topnav li {
+            float: none;
         }
     }
 
+</style>
 
-    // Attaching the event listener function to window's resize event
 
-    window.addEventListener("resize", function () {
-        let width = document.documentElement.clientWidth;
-        if (width > 1080) {
-            navigation.style.display = 'block'
-        } else {
-            navigation.style.display = 'none'
-        }
-        menu = 'closed'
-        closeBtn.style.display = 'none'
-    });
+<ul class="topnav">
 
-</script>
+
+    <a href="{% url 'home' %}">
+		<div class="dots-wrapper">
+			<div id="dot-1" class="browser-dot"></div>
+			<div id="dot-2" class="browser-dot"></div>
+			<div id="dot-3" class="browser-dot"></div>
+		</div>
+	</a>
+
+    {% if request.user.is_staff %}
+        <li><a href="{% url 'home' %}#contact">Admin panel</a></li>
+    {% endif %}
+    <li class="right"><a href="{% url 'home' %}#contact">Контакти</a></li>
+    <li class="right"><a class="btn btn-outline-dark btn-warning" href="{% url 'posts' %}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
+             viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+        </svg>
+        Пошук</a></li>
+    {% if request.user.is_authenticated %}
+        <li class="right"><a class="btn btn-outline-dark btn-warning" href="{% url 'create_post' %}">Створити
+            оголошення</a></li>
+        <li class="right"><a href="{% url 'my_posts' %}">Мої товари</a></li>
+
+        <li class="right"><a href="{% url 'profile' request.user.username %}"> <img width="30" height="30"
+                                                                                    src=" {{ request.user.profile.profile_pic.url }}">
+            Профіль</a></li>
+
+        <li class="right"><a href="{% url 'logout' %}">Вихід</a></li>
+    {% else %}
+        <li class="right"><a href="{% url 'login' %}">Вхід</a></li>
+    {% endif %}
+
+</ul>
+<hr>
+
+

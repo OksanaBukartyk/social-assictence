@@ -39,9 +39,15 @@
             color: white;
         }
 
-        h2, h1 {
+        .title-main {
+
+
             color: palevioletred; /* Цвет текста */
             background-color: white;
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            font-size: 35pt; /* Размер шрифта в пунктах */
+
+
         }
 
 
@@ -54,8 +60,8 @@
                 <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
             </ol>
             <img src="{% static 'images/images/main.png' %}" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-none d-md-block">
-                <h1>Social assictence</h1>
+            <div class="carousel-caption ">
+                <div class="title-main">Social assictence</div>
             </div>
 
         </div>
@@ -178,11 +184,12 @@
                     <div class="post-preview bg-transparent">
                         <h6 class="post-title">{{ post.headline }}</h6>
                         <p class="post-intro">{{ post.sub_headline }}</p>
-                        <a class="btn btn-outline-dark btn-warning" href="{% url 'post' post.slug %}">Переглянути оголошення</a>
-<hr>
+                        <a class="btn btn-outline-dark btn-warning" href="{% url 'post' post.slug %}">Переглянути
+                            оголошення</a>
+                        <hr>
                         {% if request.user.is_staff %}
-                             <a class="btn btn-outline-dark btn-warning" href="{% url 'update_post' post.slug %}">Редагувати</a>
-                            | <a class="btn btn-outline-dark btn-warning" href="{% url 'delete_post' post.slug %}">Видалити</a>
+                            <a class="btn btn-outline-dark btn-warning" href="{% url 'update_post' post.slug %}">Редагувати</a>
+                            |<a class="btn btn-outline-dark btn-warning" href="{% url 'delete_post' post.slug %}">Видалити</a>
                         {% endif %}
                         <hr>
 
