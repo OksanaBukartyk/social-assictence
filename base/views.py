@@ -20,12 +20,13 @@ from .models import *
 # Create your views here.
 def posts(request):
     posts = Post.objects.filter(active=True).order_by('-created')
-    myFilter = PostFilterName(request.GET, queryset=posts)
+    myFilter = PostFilter(request.GET, queryset=posts)
     posts = myFilter.qs
 
     page = request.GET.get('page')
 
-    paginator = Paginator(posts, 3)
+    paginator = Paginator(posts, 6)
+
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:
@@ -81,7 +82,7 @@ def my_posts(request):
 
     page = request.GET.get('page')
 
-    paginator = Paginator(posts, 5)
+    paginator = Paginator(posts, 6)
 
     try:
         posts = paginator.page(page)
@@ -354,13 +355,8 @@ def addOrder(request, slug):
 
 def orders(request):
     posts = Order.objects.filter(status=False, customer=request.user.profile)
-
-
-
     page = request.GET.get('page')
-
-    paginator = Paginator(posts, 1)
-
+    paginator = Paginator(posts, 6)
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:

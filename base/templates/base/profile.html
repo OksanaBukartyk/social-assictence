@@ -74,25 +74,20 @@
                 <p align="center"><font size="4" color="black" face="Arial">E-mail: {{ user.email }}</font></p>
 
                 <p>{{ user.profile.bio }}</p>
-                {% for chat in chats.all %}
-                    <li><a class="btn btn-outline-dark btn-warning" href="{% url 'chat' chat.slag %}">Написати
-                        повідомлення</a></li>
-                {% endfor %}
+                {% if request.user.profile != user.profile %}
+                <a class="btn btn-outline-dark btn-warning" href="#">Написати повідомлення</a></li>
+               <hr>
+                {% endif %}
+
+                {% if request.user.profile == user.profile or request.user.is_staff%}
                 <li><a class="btn btn-outline-dark btn-warning" href="{% url 'chats' %}">Мої повідомлення</a></li>
                 <hr>
                 <li><a class="btn btn-outline-dark btn-warning" href="{% url 'update_profile' %}">Редагувати профіль</a>
                 </li>
-                <hr>
-                <li><a class="btn btn-outline-dark btn-warning" href="#">Редагувати пароль</a></li>
+            <hr>
                 <li><a class="btn btn-outline-dark btn-warning" href="{% url 'orders' %}">Замовлення мої</a></li>
                 <hr>
-                <div id="theme-options-wrapper">
-                    <div data-mode="light" id="light-mode" class="theme-dot"></div>
-                    <div data-mode="blue" id="blue-mode" class="theme-dot"></div>
-                    <div data-mode="green" id="green-mode" class="theme-dot"></div>
-                    <div data-mode="purple" id="purple-mode" class="theme-dot"></div>
-                </div>
-
+               {% endif %}
                 <div class="comments-wrapper">
                     <h5>Відгуки: {{ user.profile.profiles.all.count }}</h5>
                     <hr>
@@ -152,7 +147,7 @@
                                        href="{% url 'post' post.slug %}">Переглянути оголошення</a>
                                     <hr>
 
-                                    {% if request.user.is_staff %}
+                                     {% if request.user.profile == post.author or request.user.is_staff%}
                                         <a class="btn btn-outline-dark btn-warning"
                                            href="{% url 'update_post' post.slug %}">Редагувати</a>
                                         | <a class="btn btn-outline-dark btn-warning"

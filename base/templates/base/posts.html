@@ -3,25 +3,8 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-
-<style type="text/css">
-	#div_id_tags, #id_tags, #div_id_headline, #id_headline{
-
-		max-height: 100px;
-		border-radius: 5px;
-		padding: 5px;
-		border:1px solid #888;
-	}
-	A {
-    color: yellow; /* Цвет ссылок */
-   }
-    A:hover {
-    color : white;}
-
-</style>
-
 <div class="main-container">
-	<h1>Posts</h1>
+	<h1 align="center">Оголошення</h1>
 
 
 	<form id="searchForm" method="GET">
@@ -42,11 +25,13 @@
 					<p class="post-intro">{{post.sub_headline}}</p>
 					<a class="btn btn-outline-dark btn-warning" href="{% url 'post' post.slug %}">Переглянути оголошення</a>
 <hr>
-                        {% if request.user.is_staff %}
+                       {% if request.user.profile == post.author or request.user.is_staff%}
+
                              <a class="btn btn-outline-dark btn-warning" href="{% url 'update_post' post.slug %}">Редагувати</a>
                             | <a class="btn btn-outline-dark btn-warning" href="{% url 'delete_post' post.slug %}">Видалити</a>
-                        {% endif %}
                         <hr>
+                        {% endif %}
+
 
 						<span class="tag">{{post.tags.name}}</span>
 
@@ -68,7 +53,7 @@
                        href="?page={{ posts.previous_page_number }}"
                        class="btn btn-outline-dark text-dark">&laquo</a>
 
-                    <a data-page="1" href="?page=1" class="btn btn-outline-dark text-dark">First</a>
+                    <a data-page="1" href="?page=1" class="btn btn-outline-dark text-dark">На початок</a>
                 {% endif %}
 
 
@@ -85,7 +70,7 @@
 
                 {% if posts.has_next %}
                     <a data-page="{{ posts.paginator.num_pages }}"
-                       href="?page={{ posts.paginator.num_pages }}" class="btn btn-outline-dark text-dark">Last</a>
+                       href="?page={{ posts.paginator.num_pages }}" class="btn btn-outline-dark text-dark">В кінець</a>
 
                     <a data-page="{{ posts.next_page_number }}"
                        href="?page={{ posts.next_page_number }}" class="btn btn-outline-dark text-dark">&raquo</a>

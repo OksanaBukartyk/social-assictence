@@ -3,57 +3,6 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-
-    <style type="text/css">
-
-        TABLE {
-            width: 100%; /* Ширина таблицы */
-
-            background: grey; /* Цвет фона таблицы */
-        }
-
-        TH {
-            background: maroon; /* Цвет фона заголовка */
-            color: white; /* Цвет текста */
-            text-align: left; /* Выравнивание по левому краю */
-        }
-
-
-        TD, TH {
-            padding: 5px; /* Поля вокруг текста */
-        }
-
-        #div_id_tags, #id_tags, #div_id_headline, #id_headline {
-
-            max-height: 100px;
-            border-radius: 5px;
-            padding: 5px;
-            border: 1px solid #888;
-        }
-
-        A {
-            color: yellow; /* Цвет ссылок */
-        }
-
-        A:hover {
-            color: white;
-        }
-
-        .title-main {
-
-
-            color: palevioletred; /* Цвет текста */
-            background-color: white;
-            font-family: Verdana, Arial, Helvetica, sans-serif;
-            font-size: 35pt; /* Размер шрифта в пунктах */
-
-
-        }
-
-
-
-    </style>
-
     <div class="bd-example">
         <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
@@ -66,113 +15,65 @@
 
         </div>
     </div>
-    </br>
+    <br>
+
     <div class="container">
-        <form id="searchForm" method="GET">
+        <div align="center" class="title">Основні категорії</div>
 
-        </form>
-
-        </br>
-
-        <table>
-            <tr>
-                <td><span class="catsTd" valign="top" id="cid1">
-                        <a href="https://darom.net.ua/board/odezhda_i_obuv/2">
-                            <img src="{% static 'images/images/baby.png' %}" width="35%"></a>
-						<a href="/board/odezhda_i_obuv/2" class="catName">Дитячий світ</a>
-                        <span class="catNumData" style="unicode-bidi:embed;">5</span>
-					</span>
-                </td>
-                <td><span class="catsTd" valign="top" id="cid2">
-                        <a href="https://darom.net.ua/board/odezhda_i_obuv/2">
-                            <img src="{% static 'images/images/dress.png' %}" width="35%"></a>
-						<a href="/board/odezhda_i_obuv/2" class="catName">Одяг та взуття</a>
-                        <span class="catNumData" style="unicode-bidi:embed;">5</span>
-					</span>
-                </td>
-                <td><span class="catsTd" valign="top" id="cid3">
-                        <a href="https://darom.net.ua/board/odezhda_i_obuv/2">
-                            <img src="{% static 'images/images/accessories.png' %}" width="35%"></a>
-						<a href="/board/odezhda_i_obuv/2" class="catName">Аксесуари</a>
-                        <span class="catNumData" style="unicode-bidi:embed;">5</span>
-					</span>
-                </td>
-                <td><span class="catsTd" valign="top" id="cid4">
-                        <a href="https://darom.net.ua/board/odezhda_i_obuv/2">
-                            <img src="{% static 'images/images/beauty.png' %}" width="35%"></a>
-						<a href="/board/odezhda_i_obuv/2" class="catName">Краса та здоров'я</a>
-                        <span class="catNumData" style="unicode-bidi:embed;">5</span>
-					</span>
-                </td>
-            </tr>
-            <tr>
-                <td><span class="catsTd" valign="top" id="cid5">
-                        <a href="https://darom.net.ua/board/odezhda_i_obuv/2">
-                            <img src="{% static 'images/images/furniture.png' %}" width="35%"></a>
-						<a href="/board/odezhda_i_obuv/2" class="catName">Меблі</a>
-                        <span class="catNumData" style="unicode-bidi:embed;">5</span>
-					</span>
-                </td>
-                <td><span class="catsTd" valign="top" id="cid6">
-                        <a href="https://darom.net.ua/board/odezhda_i_obuv/2">
-                            <img src="https://darom.net.ua/images/icons/high-heels.png"></a>
-						<a href="/board/odezhda_i_obuv/2" class="catName">Предмети інтер'єру</a>
-                        <span class="catNumData" style="unicode-bidi:embed;">5</span>
-					</span>
-                </td>
-                <td><span class="catsTd" valign="top" id="cid7">
-                        <a href="https://darom.net.ua/board/odezhda_i_obuv/2">
-                            <img src="https://darom.net.ua/images/icons/high-heels.png"></a>
-						<a href="/board/odezhda_i_obuv/2" class="catName">Інструменти</a>
-                        <span class="catNumData" style="unicode-bidi:embed;">5</span>
-					</span>
-                </td>
-                <td><span class="catsTd" valign="top" id="cid8">
-                        <a href="https://darom.net.ua/board/odezhda_i_obuv/2">
-                            <img src="https://darom.net.ua/images/icons/high-heels.png"></a>
-						<a href="/board/odezhda_i_obuv/2" class="catName">Посуд/кухонне приладдя</a>
-                        <span class="catNumData" style="unicode-bidi:embed;">5</span>
-					</span>
-                </td>
-            </tr>
-            <tr>
-                <td><span class="catsTd" valign="top" id="cid9">
-                        <a href="https://darom.net.ua/board/odezhda_i_obuv/2">
-                            <img src="https://darom.net.ua/images/icons/high-heels.png"></a>
-						<a href="/board/odezhda_i_obuv/2" class="catName">Будівництво і ремонт</a>
-                        <span class="catNumData" style="unicode-bidi:embed;">5</span>
-					</span>
-                </td>
-                <td><span class="catsTd" valign="top" id="cid10">
-                        <a href="https://darom.net.ua/board/odezhda_i_obuv/2">
-                            <img src="https://darom.net.ua/images/icons/high-heels.png"></a>
-						<a href="/board/odezhda_i_obuv/2" class="catName">Рослини та тварини</a>
-                        <span class="catNumData" style="unicode-bidi:embed;">5</span>
-					</span>
-                </td>
-                <td><span class="catsTd" valign="top" id="cid11">
-                        <a href="https://darom.net.ua/board/odezhda_i_obuv/2">
-                            <img src="{% static 'images/images/food.png' %}" width="35%"></a>
-						<a href="/board/odezhda_i_obuv/2" class="catName">Продукти харчування</a>
-                        <span class="catNumData" style="unicode-bidi:embed;">5</span>
-					</span>
-                </td>
-                <td><span class="catsTd" valign="top" id="cid12">
-                        <a href="https://darom.net.ua/board/odezhda_i_obuv/2">
-                            <img src="https://darom.net.ua/images/icons/high-heels.png"></a>
-						<a href="/board/odezhda_i_obuv/2" class="catName">Інше</a>
-                        <span class="catNumData" style="unicode-bidi:embed;">5</span>
-					</span>
-                </td>
-            </tr>
+        <div class="category-wrapper">
+            <div class="category ">
+               <a href="{% url 'posts' %}">
+                    <img class="thumbnail-cat" src="{% static 'images/images/baby.png' %}"></a>
+                <div class="post-preview bg-transparent">
+                    <a href="{% url 'posts'  %}">
+                        <h6 class="post-title-cat">Дитячий світ</h6></a>
+                </div>
+            </div>
+            <div class="category ">
+                <a href="{% url 'posts' %}">
+                    <img class="thumbnail-cat" src="{% static 'images/images/dress.png' %}"></a>
+                <div class="post-preview bg-transparent">
+                     <a href="{% url 'posts'  %}">
+                         <h6 class="post-title-cat">Одяг та взуття</h6></a>
+                </div>
+            </div>
+            <div class="category ">
+                 <a href="{% url 'posts'  %}">
+                     <img class="thumbnail-cat" src="{% static 'images/images/accessories.png' %}"></a>
+                <div class="post-preview bg-transparent">
+                     <a href="{% url 'posts'  %}">
+                         <h6 class="post-title-cat">Аксесуари</h6></a>
+                </div>
+            </div>
+            <div class="category ">
+                 <a href="{% url 'posts'  %}">
+                     <img class="thumbnail-cat" src="{% static 'images/images/beauty.png' %}"></a>
+                <div class="post-preview bg-transparent">
+                     <a href="{% url 'posts'  %}">
+                         <h6 class="post-title-cat">Краса та здоров'я</h6></a>
+                </div>
+            </div>
+            <div class="category ">
+                 <a href="{% url 'posts'  %}">
+                     <img class="thumbnail-cat" src="{% static 'images/images/furniture.png' %}"></a>
+                <div class="post-preview bg-transparent">
+                     <a href="{% url 'posts'  %}">
+                         <h6 class="post-title-cat">Меблі</h6></a>
+                </div>
+            </div>
+            <div class="category ">
+                 <a href="{% url 'posts'  %}">
+                     <img class="thumbnail-cat" src="{% static 'images/images/food.png' %}"></a>
+                <div class="post-preview bg-transparent">
+                     <a href="{% url 'posts'  %}">
+                         <h6 class="post-title-cat">Продукти харчування</h6></a>
+                </div>
+            </div>
 
 
-        </table>
+        </div>
+
     </div>
-
-
-    </br>
-
 
     <div class="post-wrapper">
 
@@ -187,9 +88,9 @@
                         <a class="btn btn-outline-dark btn-warning" href="{% url 'post' post.slug %}">Переглянути
                             оголошення</a>
                         <hr>
-                        {% if request.user.is_staff %}
+                        {% if request.user.profile == post.author or request.user.is_staff%}
                             <a class="btn btn-outline-dark btn-warning" href="{% url 'update_post' post.slug %}">Редагувати</a>
-                            |<a class="btn btn-outline-dark btn-warning" href="{% url 'delete_post' post.slug %}">Видалити</a>
+                            | <a class="btn btn-outline-dark btn-warning" href="{% url 'delete_post' post.slug %}">Видалити</a>
                         {% endif %}
                         <hr>
 
@@ -229,7 +130,8 @@
 
                 {% if posts.has_next %}
                     <a data-page="{{ posts.paginator.num_pages }}"
-                       href="?page={{ posts.paginator.num_pages }}" class="btn btn-outline-dark text-dark">В кінець</a>
+                       href="?page={{ posts.paginator.num_pages }}" class="btn btn-outline-dark text-dark">В
+                        кінець</a>
 
                     <a data-page="{{ posts.next_page_number }}"
                        href="?page={{ posts.next_page_number }}" class="btn btn-outline-dark text-dark">&raquo</a>
@@ -266,7 +168,6 @@
         </div>
 
     </section>
-
 
 
     </div>

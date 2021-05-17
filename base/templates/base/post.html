@@ -78,11 +78,11 @@
 
 <div class="main-container">
 <br>
-<a class="btn btn-warning" href="{% url 'my_posts' %}">&laquo Back to My Posts</a>
+<a class="btn btn-warning" href="{% url 'posts' %}">&laquo Повернутись до всіх оголошень</a>
 
-{% if request.user.is_staff %}
-<a class="btn btn-outline-success" href="{% url 'update_post' post.slug %}">Edit</a>
-<a class="btn btn-outline-danger" href="{% url 'delete_post' post.slug %}">Delete</a>
+{% if request.user.profile == post.author or request.user.is_staff%}
+<a class="btn btn-outline-success" href="{% url 'update_post' post.slug %}">Редагувати</a>
+<a class="btn btn-outline-danger" href="{% url 'delete_post' post.slug %}">Видалити</a>
 {% endif %}
 
     <hr>
@@ -168,7 +168,8 @@
                 <div class="col-md-9">
                     <a href="{% url 'profile' comment.author.user.username %}">{{comment.author.user.username}}</a> <p class="comment-body">{{comment.created|date:"M-d-Y"}}</p>
 
-                    <h3 class="comment-body">{{comment.body}}</h3>
+                    <p align="left" class="comment-body">{{ comment.body }}</p>
+                    <p align="right" class="comment-date">{{ comment.created|date:"M-d-Y" }}</p>
                 </div>
                 {% endfor %}
             </div>

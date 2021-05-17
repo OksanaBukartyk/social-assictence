@@ -13,18 +13,27 @@ from .models import Post, Profile, Tag
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
+
+        fields = ['username', 'email', 'password1', 'password2']
+        labels = {'username': ("Ім'я користувача"), 'email': ('Електронна пошта*'), 'password1': ('Пароль'),
+                  'password2': ('Пароль (повторно)')}
+        help_texts = {'username': ('Letters A-Z or a-z, digits 0-9 and @/./+/-/_ only.')}
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if not email:
+            raise forms.ValidationError("Це поле є обов'язковим")
+        return email
 
 
 class PostForm(ModelForm):
     class Meta:
         model = Post
         fields = '__all__'
-        #fields = ['headline', 'thumbnail', 'tags', 'body']
+        # fields = ['headline', 'thumbnail', 'tags', 'body']
         labels = {'headline': ('Назва'), 'thumbnail': ('Основне фото'), 'body': ('Опис'), 'tags': ('Категорія')}
         help_texts = {'headline': ('Коротко і ясно'), 'thumbnail': ('Буде показано в пошуку'),
                       'body': ('Детальна інформація про товар')}
-
 
         exclude = ['author', 'slug', 'active', 'featured']
         # fields = ['headline', 'tags', 'author', 'product_category', ]
