@@ -18,7 +18,7 @@
     </a>
 
     {% if request.user.is_staff %}
-        <li><a href="{% url 'home' %}#contact">Адміністратор</a></li>
+        <li><a href="{% url 'admin_page' %}#contact">Адміністратор</a></li>
     {% endif %}
 
     {% if request.user.is_authenticated %}

@@ -5,7 +5,19 @@ from django.contrib.auth.models import User
 from django.utils.text import slugify
 from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
+from django.template.defaultfilters import slugify as django_slugify
 
+alphabet = {'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'yo', 'ж': 'zh', 'з': 'z', 'и': 'i',
+            'й': 'j', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't',
+            'у': 'u', 'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'shch', 'ы': 'i', 'э': 'e', 'ю': 'yu',
+            'я': 'ya'}
+
+
+def slugify(s):
+    """
+    Overriding django slugify that allows to use russian words as well.
+    """
+    return django_slugify(''.join(alphabet.get(w, w) for w in s.lower()))
 
 # Create your models here.
 
@@ -54,7 +66,7 @@ class Post(models.Model):
     author = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
     headline = models.CharField(max_length=20, blank=False, null=False)
     thumbnail = models.ImageField(upload_to="images", blank=False, null=False)
-    body = models.TextField(max_length=200, null=False, blank=False)
+    body = models.TextField(max_length=500, null=False, blank=False)
     created = models.DateTimeField(auto_now_add=True)
     active = models.BooleanField(default=True)
     featured = models.BooleanField(default=False)

@@ -28,8 +28,11 @@ urlpatterns = [
 
     path('add_order/<slug:slug>', views.addOrder, name="add_order"),
     path('orders', views.orders, name="orders"),
-
-
-
+    path('admin_page', views.admin_page, name="admin_page"),
+    path('users', views.users, name="users"),
+path('delete_post_admin/<slug:slug>/', views.deletePostAdmin, name="delete_post_admin"),
+    path('posts_admin', views.posts_admin, name="posts_admin"),
+    path('posts_comments', views.posts_comments, name="posts_comments"),
+    path('profiles_comments', views.profiles_comments, name="profiles_comments"),
 
 ]

@@ -2,7 +2,7 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
-
+<div class="main-container">
     <div class="bd-example">
         <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
@@ -14,6 +14,7 @@
             </div>
 
         </div>
+    </div>
     </div>
     <br>
 
@@ -143,7 +144,7 @@
     </br>
     <section class="s2">
         <div class="main-container">
-            <a href=""></a>
+            <br>
             <h3 style="text-align: center;">Зв'язатись</h3>
 
             <form id="contact-form" method="POST" action="{% url 'send_email' %}">

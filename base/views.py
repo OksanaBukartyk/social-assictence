@@ -96,19 +96,16 @@ def my_posts(request):
 
 
 # CRUD VIEWS
-#@admin_only
+# @admin_only
 @login_required(login_url="home")
 def createPost(request):
     form = PostForm()
-
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
-
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user.profile
             post.save()
-
         for file in request.FILES.getlist('images'):
             instance = Image(
                 condo=post,
@@ -116,9 +113,7 @@ def createPost(request):
             )
             instance.save()
         return redirect('posts')
-
     context = {'form': form}
-
     return render(request, 'base/post_form.html', context)
 
 
@@ -144,7 +139,7 @@ def updatePost(request, slug):
     return render(request, 'base/post_form.html', context)
 
 
-@admin_only
+
 @login_required(login_url="home")
 def deletePost(request, slug):
     post = Post.objects.get(slug=slug)
@@ -190,14 +185,14 @@ def loginPage(request):
             user = User.objects.get(email=email)
             user = authenticate(request, username=user.username, password=password)
         except:
-            messages.error(request, 'User with this email does not exists')
+            messages.error(request, 'Користуувач з таким іменем вже існує')
             return redirect('login')
 
         if user is not None:
             login(request, user)
             return redirect('home')
         else:
-            messages.error(request, 'Email OR password is incorrect')
+            messages.error(request, 'Не вірний е-mail або пароль')
 
     context = {}
     return render(request, 'base/login.html', context)
@@ -238,11 +233,11 @@ def logoutUser(request):
 
 
 def profile(request, username):
-    user=User.objects.get(username=username)
-    profile = Profile.objects.get(user = user)
+    user = User.objects.get(username=username)
+    profile = Profile.objects.get(user=user)
     chats = (Chat.objects.filter(sender=request.user.profile, recipient=user.profile) |
              Chat.objects.filter(sender=user.profile, recipient=request.user.profile)).first()
-    posts = Post.objects.filter(active=True, author=request.user.profile).order_by('-created')
+    posts = Post.objects.filter(active=True, author=user.profile).order_by('-created')
 
     page = request.GET.get('page')
 
@@ -338,14 +333,14 @@ class DialogsView():
 
 def addOrder(request, slug):
     post = Post.objects.get(slug=slug)
-    #order=Order.objects.пуе(post=post, customer=request.user.profile)
+    # order=Order.objects.пуе(post=post, customer=request.user.profile)
     if not Order.objects.filter(post=post, customer=request.user.profile).exists():
         Order.objects.create(
-                customer=request.user.profile,
-                post=post,
-                status=False,
-            )
-        messages.success (request, "You're order was successfuly added!")
+            customer=request.user.profile,
+            post=post,
+            status=False,
+        )
+        messages.success(request, "You're order was successfuly added!")
 
         return redirect('post', slug=post.slug)
     else:
@@ -367,3 +362,44 @@ def orders(request):
     context = {'posts': posts}
     return render(request, 'base/orders.html', context)
 
+
+def admin_page(request):
+    return render(request, 'base/admin_page.html')
+
+
+def users(request):
+    profiles= Profile.objects.all()
+    context={'profiles':profiles}
+
+    return render(request, 'base/users.html',context)
+
+@admin_only
+@login_required(login_url="home")
+def deletePostAdmin(request, slug):
+    post = Post.objects.get(slug=slug)
+
+    if request.method == 'POST':
+        post.delete()
+        return redirect('posts')
+    context = {'item': post}
+    return render(request, 'base/delete_admin.html', context)
+
+
+def posts_admin(request):
+    posts = Post.objects.filter(active=True)
+    context = {'posts': posts}
+    return render(request, 'base/posts_admin.html', context)
+
+
+def posts_comments(request):
+    comments = PostComment.objects.all()
+    context = {'comments': comments}
+
+    return render(request, 'base/posts_comments.html',context)
+
+
+def profiles_comments(request):
+    comments = PostComment.objects.all()
+    context = {'comments': comments}
+
+    return render(request, 'base/profiles_comments.html', context)

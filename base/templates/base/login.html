@@ -29,7 +29,7 @@
 			{% endfor %}
 		{% endif %}
 
-		<h3 class = "btn btn-warning btn-lg btn-block" >Member Login</h3>
+		<h3 class = "btn btn-warning btn-lg btn-block" >Вхід</h3>
 		<hr>
 		<form method="POST">
 			{% csrf_token %}
@@ -37,7 +37,7 @@
 			<label>E-mail:</label>
 			<input class="input-field" type="text" name="email">
 
-			<label>Password: </label>
+			<label>Пароль: </label>
 			<input required class="input-field" type="password" name="password">
         	<hr>
 			<input class="btn btn-warning btn-lg btn-block" type="submit" value="Login">
