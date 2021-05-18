@@ -2,181 +2,200 @@
 {% load static %}
 {% block content %}
 
-<style type="text/css">
-	#user_pic{
-		height: 200px;
-		width: 200px;
-		border-radius: 50%;
-		border:5px solid #888;
-		margin:0 auto;
-		object-fit: cover;
-	}
-	#product_pic{
-		height: 600px;
-		width: 600px;
-		border:2px solid #888;
-		margin:0 auto;
-		object-fit: cover;
-	}
-	#product_images{
-	    height: 500px;
-		width: 500px;
-		border:5px solid #888;
-		margin:0 auto;
-		object-fit: cover;
-	}
-	A {
-    color: yellow; /* Цвет ссылок */
-   }
-    A:hover {
-    color : white;}
+    <style type="text/css">
+        #user_pic {
+            height: 200px;
+            width: 200px;
+            border-radius: 50%;
+            border: 5px solid #888;
+            margin: 0 auto;
+            object-fit: cover;
+        }
 
-	#user-info-box{
-		text-align: center;
+        #product_pic {
+            height: 600px;
+            width: 600px;
+            border: 2px solid #888;
+            margin: 0 auto;
+            object-fit: cover;
+        }
 
+        #product_images {
+            height: 500px;
+            width: 500px;
+            border: 5px solid #888;
+            margin: 0 auto;
+            object-fit: cover;
+        }
 
-	}
-	#product-info-box{
-		text-align: center;
-		}
-	#photos-info-box{
-		text-align: center;
-		}
-	.comments-wrapper{
-		margin-top: 50px;
-		padding: 10px;
-		border:1px solid var(--borderColor);
-		-webkit-box-shadow: -1px 1px 3px -1px rgba(0,0,0,0.75);
-		-moz-box-shadow: -1px 1px 3px -1px rgba(0,0,0,0.75);
-		box-shadow: -1px 1px 3px -1px rgba(0,0,0,0.75);
-	}
+        A {
+            color: yellow; /* Цвет ссылок */
+        }
 
-	.comment{
-		display: flex;
-		padding: 15px;
-	}
+        A:hover {
+            color: white;
+        }
 
-	.comment-author{
-		font-size: 14px;
-		font-weight: 700;
-		color: rgb(30, 174, 219) !important;
-		margin: 2px;
-	}
-
-	.author-pic{
-		width: 75px;
-		height: 75px;
-		border-radius: 50%;
-		margin-right: 10px;
-	}
-
-	.comment-body{
-		font-size: 14px;
-	}
-</style>
+        #user-info-box {
+            text-align: center;
 
 
-<div class="main-container">
-<br>
-<a class="btn btn-warning" href="{% url 'posts' %}">&laquo Повернутись до всіх оголошень</a>
+        }
 
-{% if request.user.profile == post.author or request.user.is_staff%}
-<a class="btn btn-outline-success" href="{% url 'update_post' post.slug %}">Редагувати</a>
-<a class="btn btn-outline-danger" href="{% url 'delete_post' post.slug %}">Видалити</a>
-{% endif %}
+        #product-info-box {
+            text-align: center;
+        }
 
-    <hr>
-    <div class="row">
-        <div class="col-md-8">
-            <div class="card card-body bg-transparent" id="product-info-box">
-                <img id="product_pic" src="{{post.thumbnail.url}}">
-                <hr>
-                <div class="card card-body bg-transparent">
-                    <h2 align="left">Назва: {{post.headline}}</h2>
+        #photos-info-box {
+            text-align: center;
+        }
 
-                    <p align="left">Опис: {{post.body|safe}}</p>
+        .comments-wrapper {
+            margin-top: 50px;
+            padding: 10px;
+            border: 1px solid var(--borderColor);
+            -webkit-box-shadow: -1px 1px 3px -1px rgba(0, 0, 0, 0.75);
+            -moz-box-shadow: -1px 1px 3px -1px rgba(0, 0, 0, 0.75);
+            box-shadow: -1px 1px 3px -1px rgba(0, 0, 0, 0.75);
+        }
 
-                    <p align="left">Категорія: {{post.product_category.name}}/ {{post.tags}}</p>
-                    <p align="left">Дата створення: {{post.created}}</p>
+        .comment {
+            display: flex;
+            padding: 15px;
+        }
 
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card card-body bg-transparent" id="user-info-box">
-                <img id="user_pic" src="{{post.author.profile_pic.url}}">
-                <br>
-                <a class="btn btn-outline-warning text-dark font-weight-bold btn-lg " href="{% url 'profile' post.author.user.username %}">{{post.author.user.username}}</a>
-                 <br>
-                <li><a class="btn btn-outline-dark btn-warning" href="#">Написати повідомлення</a></li>
-                <br>
-                <li><a class="btn btn-outline-dark btn-warning" href="{% url 'add_order' post.slug %}">Замовити</a></li>
-                <br>
+        .comment-author {
+            font-size: 14px;
+            font-weight: 700;
+            color: rgb(30, 174, 219) !important;
+            margin: 2px;
+        }
 
-            </div>
-        </div>
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card card-body bg-transparent">
-                <a class="btn btn-warning" href="#">Gallery</a>
-                {% for image in images.all %}
-                <br>
-                <img id="product_images" class="featured_image" src="{{image.image.url}}">
-                {% endfor %}
+        .author-pic {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
 
-            </div>
-        </div>
-    </div>
+        .comment-body {
+            font-size: 14px;
+        }
+    </style>
 
 
+    <div class="main-container">
+        <br>
+        <a class="btn btn-warning" href="{% url 'posts' %}">&laquo Повернутись до всіх оголошень</a>
 
-
-    <div class="comments-wrapper">
-        <h5>Коментарі: {{post.postcomment_set.all.count}}</h5>
-        <hr>
-        <!--
-            - Not logged in, output form and say "Register to comment and give room for a message"
-            - When given username
-        -->
-        {% if request.user.is_authenticated %}
-        <form action="" method="POST">
-            {% csrf_token %}
-            <textarea required class="form-control" placeholder="Написати коментар..."
-                      name="comment"></textarea>
-            <br>
-            <input class="btn btn-warning" type="submit" value="Надіслати">
-        </form>
-        {% else %}
-        <p>Необхідно здійснити вхід або зараєструватись, щоб залишити коментар:</p>
-        <a class="btn btn-warning" href="{% url 'register' %}">Реєстрація/Вхід</a>
+        {% if request.user.profile == post.author or request.user.is_staff %}
+            <a class="btn btn-outline-success" href="{% url 'update_post' post.slug %}">Редагувати</a>
+            <a class="btn btn-outline-danger" href="{% url 'delete_post' post.slug %}">Видалити</a>
         {% endif %}
 
         <hr>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card card-body bg-transparent" id="product-info-box">
+                    <img id="product_pic" src="{{ post.thumbnail.url }}">
+                    <hr>
+                    <div class="card card-body bg-transparent">
+                        <h2 align="left">Назва: {{ post.headline }}</h2>
 
-        <div class="comment">
+                        <p align="left">Опис: {{ post.body|safe }}</p>
 
-            <div class="row">
-                {% for comment in post.postcomment_set.all %}
-                <hr>
-                <div class="col-md-3">
-                    <a href="{% url 'profile' comment.author.user.username %}"> <img class="author-pic"
-                                                                            src="{{comment.author.profile_pic.url}}">
-                    </a>
+                        <p align="left">Категорія: {{ post.product_category.name }}/ {{ post.tags }}</p>
+                        <p align="left">Дата створення: {{ post.created }}</p>
+
+                    </div>
                 </div>
-                <div class="col-md-9">
-                    <a href="{% url 'profile' comment.author.user.username %}">{{comment.author.user.username}}</a> <p class="comment-body">{{comment.created|date:"M-d-Y"}}</p>
-
-                    <p align="left" class="comment-body">{{ comment.body }}</p>
-                    <p align="right" class="comment-date">{{ comment.created|date:"M-d-Y" }}</p>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-body bg-transparent" id="user-info-box">
+                    <img id="user_pic" src="{{ post.author.profile_pic.url }}">
+                    <br>
+                    <a class="btn btn-outline-warning text-dark font-weight-bold btn-lg "
+                       href="{% url 'profile' post.author.user.username %}">{{ post.author.user.username }}</a>
+                    <br>
+                    {% if request.user.is_authenticated and request.user.profile != post.author %}
+                        <li><a class="btn btn-outline-dark btn-warning" href="#">Написати повідомлення</a></li>
+                        <br>
+                        <li><a class="btn btn-outline-dark btn-warning"
+                               href="{% url 'add_order' post.slug %}">Замовити</a></li>
+                        <br>
+                    {% elif request.user.is_authenticated and request.user.profile == post.author %}
+                        <p>Це ваше оголошенння.</p>
+                        {% else %}<p> Ввійдіть або зареєструйтесь, щоб зв'язатись з користувачем.</p>
+                    {% endif %}
                 </div>
-                {% endfor %}
             </div>
         </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-body ">
+
+                <div align="center" class="titles"> Галерея </div>
+
+                    {% for image in images.all %}
+
+                        <br>
+                        <img id="product_images" class="featured_image" src="{{ image.image.url }}">
+                    {% empty %}
+                        <hr>
+                        <h5 align="center">Більше фото не має...</h5>
+                    {% endfor %}
+</div>
+
+            </div>
+        </div>
+
+
+        <div class="comments-wrapper">
+            <h5>Коментарі: {{ post.postcomment_set.all.count }}</h5>
+            <hr>
+            <!--
+                - Not logged in, output form and say "Register to comment and give room for a message"
+                - When given username
+            -->
+            {% if request.user.is_authenticated %}
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <textarea required class="form-control" placeholder="Написати коментар..."
+                              name="comment"></textarea>
+                    <br>
+                    <input class="btn btn-warning" type="submit" value="Надіслати">
+                </form>
+            {% else %}
+                <p>Необхідно здійснити вхід або зараєструватись, щоб залишити коментар:</p>
+                <a class="btn btn-warning" href="{% url 'register' %}">Реєстрація/Вхід</a>
+            {% endif %}
+
+            <hr>
+
+            <div class="comment">
+
+                <div class="row">
+                    {% for comment in post.postcomment_set.all %}
+                        <hr>
+                        <div class="col-md-3">
+                            <a href="{% url 'profile' comment.author.user.username %}"> <img class="author-pic"
+                                                                                             src="{{ comment.author.profile_pic.url }}">
+                            </a>
+                        </div>
+                        <div class="col-md-9">
+                            <a href="{% url 'profile' comment.author.user.username %}">{{ comment.author.user.username }}</a>
+                            <p class="comment-body">{{ comment.created|date:"M-d-Y" }}</p>
+
+                            <p align="left" class="comment-body">{{ comment.body }}</p>
+                            <p align="right" class="comment-date">{{ comment.created|date:"M-d-Y" }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
     </div>
 
-</div>
-
-</div>
+    </div>
 {% endblock content %}

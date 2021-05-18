@@ -64,7 +64,7 @@ class Tag(models.Model):
 
 class Post(models.Model):
     author = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
-    headline = models.CharField(max_length=20, blank=False, null=False)
+    headline = models.CharField(max_length=30, blank=False, null=False)
     thumbnail = models.ImageField(upload_to="images", blank=False, null=False)
     body = models.TextField(max_length=500, null=False, blank=False)
     created = models.DateTimeField(auto_now_add=True)
@@ -180,3 +180,20 @@ class Order(models.Model):
     def created_dynamic(self):
         now = timezone.now()
         return now
+
+class Letter(models.Model):
+    name=models.TextField(null=True, blank=True)
+    theme =models.TextField(null=True, blank=True)
+    email = models.EmailField(null=True, blank=True)
+    message=models.TextField(null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+    @property
+    def created_dynamic(self):
+        now = timezone.now()
+        return now
+
+

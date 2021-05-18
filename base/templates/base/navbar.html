@@ -27,7 +27,7 @@
         <li class="right"><a href="{% url 'login' %}">Вхід</a></li>
     {% endif %}
 
-    <li class="right"><a href="{% url 'home' %}#contact">Контакти</a></li>
+
 
     {% if request.user.is_authenticated %}
         <li class="right"><a href="{% url 'profile' request.user.username %}"> <img width="30" height="30"

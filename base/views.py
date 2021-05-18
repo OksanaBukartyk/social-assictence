@@ -139,7 +139,6 @@ def updatePost(request, slug):
     return render(request, 'base/post_form.html', context)
 
 
-
 @login_required(login_url="home")
 def deletePost(request, slug):
     post = Post.objects.get(slug=slug)
@@ -153,22 +152,10 @@ def deletePost(request, slug):
 
 def sendEmail(request):
     if request.method == 'POST':
-        template = render_to_string('base/email_template.html', {
-            'name': request.POST['name'],
-            'email': request.POST['email'],
-            'message': request.POST['message'],
-        })
-
-        email = EmailMessage(
-            request.POST['subject'],
-            template,
-            settings.EMAIL_HOST_USER,
-            ['oksana.petriv17@gmail.com']
-        )
-
-        email.fail_silently = False
-        email.send()
-
+        instance = Letter(name=request.POST['name'], theme=request.POST['subject'],
+                          email=request.POST['email'], message=request.POST['message'])
+        instance.save()
+        return redirect('posts')
     return render(request, 'base/email_sent.html')
 
 
@@ -235,8 +222,7 @@ def logoutUser(request):
 def profile(request, username):
     user = User.objects.get(username=username)
     profile = Profile.objects.get(user=user)
-    chats = (Chat.objects.filter(sender=request.user.profile, recipient=user.profile) |
-             Chat.objects.filter(sender=user.profile, recipient=request.user.profile)).first()
+
     posts = Post.objects.filter(active=True, author=user.profile).order_by('-created')
 
     page = request.GET.get('page')
@@ -265,7 +251,7 @@ def profile(request, username):
 
         return redirect('profile', username=user.username)
 
-    context = {'user': user, 'chats': chats, 'posts': posts}
+    context = {'user': user, 'posts': posts}
 
     return render(request, 'base/profile.html', context)
 
@@ -368,10 +354,11 @@ def admin_page(request):
 
 
 def users(request):
-    profiles= Profile.objects.all()
-    context={'profiles':profiles}
+    profiles = Profile.objects.all()
+    context = {'profiles': profiles}
 
-    return render(request, 'base/users.html',context)
+    return render(request, 'base/users.html', context)
+
 
 @admin_only
 @login_required(login_url="home")
@@ -395,7 +382,7 @@ def posts_comments(request):
     comments = PostComment.objects.all()
     context = {'comments': comments}
 
-    return render(request, 'base/posts_comments.html',context)
+    return render(request, 'base/posts_comments.html', context)
 
 
 def profiles_comments(request):
@@ -403,3 +390,31 @@ def profiles_comments(request):
     context = {'comments': comments}
 
     return render(request, 'base/profiles_comments.html', context)
+
+
+def letters(request):
+    letters = Letter.objects.all()
+    context = {'letters': letters}
+
+    return render(request, 'base/letters.html', context)
+
+
+def category_posts(request, name):
+    tags = Tag.objects.filter(name=name)
+    posts = Post.objects.filter(tags=tags[0])
+    myFilter = PostFilterName(request.GET, queryset=posts)
+    posts = myFilter.qs
+
+    page = request.GET.get('page')
+
+    paginator = Paginator(posts, 6)
+
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+
+    context = {'posts': posts, 'myFilter': myFilter, 'name': name}
+    return render(request, 'base/category_posts.html', context)

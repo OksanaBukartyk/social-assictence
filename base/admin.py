@@ -14,5 +14,6 @@ admin.site.register(Image)
 admin.site.register(Chat)
 admin.site.register(Message)
 admin.site.register(Order)
+admin.site.register(Letter)
 
 

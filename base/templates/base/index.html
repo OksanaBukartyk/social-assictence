@@ -26,7 +26,7 @@
                <a href="{% url 'posts' %}">
                     <img class="thumbnail-cat" src="{% static 'images/images/baby.png' %}"></a>
                 <div class="post-preview bg-transparent">
-                    <a href="{% url 'posts'  %}">
+                    <a href="{% url 'category_posts' 'Дитячий світ' %}">
                         <h6 class="post-title-cat">Дитячий світ</h6></a>
                 </div>
             </div>
@@ -34,7 +34,7 @@
                 <a href="{% url 'posts' %}">
                     <img class="thumbnail-cat" src="{% static 'images/images/dress.png' %}"></a>
                 <div class="post-preview bg-transparent">
-                     <a href="{% url 'posts'  %}">
+                     <a href="{% url 'category_posts' 'Одяг та взуття' %}">
                          <h6 class="post-title-cat">Одяг та взуття</h6></a>
                 </div>
             </div>
@@ -42,7 +42,7 @@
                  <a href="{% url 'posts'  %}">
                      <img class="thumbnail-cat" src="{% static 'images/images/accessories.png' %}"></a>
                 <div class="post-preview bg-transparent">
-                     <a href="{% url 'posts'  %}">
+                     <a href="{% url 'category_posts' 'Аксесуари' %}">
                          <h6 class="post-title-cat">Аксесуари</h6></a>
                 </div>
             </div>
@@ -50,15 +50,15 @@
                  <a href="{% url 'posts'  %}">
                      <img class="thumbnail-cat" src="{% static 'images/images/beauty.png' %}"></a>
                 <div class="post-preview bg-transparent">
-                     <a href="{% url 'posts'  %}">
-                         <h6 class="post-title-cat">Краса та здоров'я</h6></a>
+                    <a href="{% url 'category_posts' "Краса і здоров'я" %}">
+                         <h6 class="post-title-cat">Краса і здоров'я</h6></a>
                 </div>
             </div>
             <div class="category ">
                  <a href="{% url 'posts'  %}">
                      <img class="thumbnail-cat" src="{% static 'images/images/furniture.png' %}"></a>
                 <div class="post-preview bg-transparent">
-                     <a href="{% url 'posts'  %}">
+                     <a href="{% url 'category_posts' 'Меблі' %}">
                          <h6 class="post-title-cat">Меблі</h6></a>
                 </div>
             </div>
@@ -66,7 +66,7 @@
                  <a href="{% url 'posts'  %}">
                      <img class="thumbnail-cat" src="{% static 'images/images/food.png' %}"></a>
                 <div class="post-preview bg-transparent">
-                     <a href="{% url 'posts'  %}">
+                     <a href="{% url 'category_posts' 'Продукти харчування' %}">
                          <h6 class="post-title-cat">Продукти харчування</h6></a>
                 </div>
             </div>
@@ -88,12 +88,14 @@
                         <p class="post-intro">{{ post.sub_headline }}</p>
                         <a class="btn btn-outline-dark btn-warning" href="{% url 'post' post.slug %}">Переглянути
                             оголошення</a>
-                        <hr>
+
                         {% if request.user.profile == post.author or request.user.is_staff%}
+                            <hr>
                             <a class="btn btn-outline-dark btn-warning" href="{% url 'update_post' post.slug %}">Редагувати</a>
                             | <a class="btn btn-outline-dark btn-warning" href="{% url 'delete_post' post.slug %}">Видалити</a>
-                        {% endif %}
-                        <hr>
+
+                        {% endif %} <hr>
+
 
                         <span class="tag">{{ post.tags.name }}</span>
 

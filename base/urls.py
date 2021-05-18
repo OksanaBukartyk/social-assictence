@@ -30,9 +30,11 @@ urlpatterns = [
     path('orders', views.orders, name="orders"),
     path('admin_page', views.admin_page, name="admin_page"),
     path('users', views.users, name="users"),
-path('delete_post_admin/<slug:slug>/', views.deletePostAdmin, name="delete_post_admin"),
+    path('delete_post_admin/<slug:slug>/', views.deletePostAdmin, name="delete_post_admin"),
     path('posts_admin', views.posts_admin, name="posts_admin"),
     path('posts_comments', views.posts_comments, name="posts_comments"),
     path('profiles_comments', views.profiles_comments, name="profiles_comments"),
+    path('letters', views.letters, name="letters"),
+    path('category_posts/<str:name>/', views.category_posts, name="category_posts"),
 
 ]
