@@ -386,7 +386,7 @@ def posts_comments(request):
 
 
 def profiles_comments(request):
-    comments = PostComment.objects.all()
+    comments = ProfileComment.objects.all()
     context = {'comments': comments}
 
     return render(request, 'base/profiles_comments.html', context)

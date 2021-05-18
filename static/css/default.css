@@ -47,7 +47,69 @@ p, li, span, label, input, textarea {
     font-family: Verdana, Arial, Helvetica, sans-serif;
     font-size: 30pt; /* Размер шрифта в пунктах */
 }
+#user_pic {
+            height: 200px;
+            width: 200px;
+            border-radius: 50%;
+            border: 5px solid #888;
+            margin: 0 auto;
+            object-fit: cover;
+        }
 
+#user_navbar_pic {
+            height: 28px;
+            width: 28px;
+            border-radius: 50%;
+
+            margin: 0 auto;
+            object-fit: cover;
+        }
+
+
+        #user-info-box {
+            text-align: center;
+
+
+        }
+
+        .comments-wrapper {
+            margin-top: 5px;
+            padding: 10px;
+            border: 1px solid var(--borderColor);
+            -webkit-box-shadow: -1px 1px 3px -1px rgba(0, 0, 0, 0.75);
+            -moz-box-shadow: -1px 1px 3px -1px rgba(0, 0, 0, 0.75);
+            box-shadow: -1px 1px 3px -1px rgba(0, 0, 0, 0.75);
+        }
+
+        .comment {
+            display: flex;
+            padding: 1px;
+        }
+
+        .comment-author {
+            font-size: 14px;
+            font-weight: 700;
+            color: black;
+
+
+        }
+
+        .author-pic {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .comment-date {
+
+            font-size: 10px;
+        }
+
+        .comment-body {
+
+            font-size: 14px;
+        }
 .titles {
     color: black; /* Цвет текста */
     background-color: #ffc107;

@@ -30,7 +30,7 @@
 
 
     {% if request.user.is_authenticated %}
-        <li class="right"><a href="{% url 'profile' request.user.username %}"> <img width="30" height="30"
+        <li class="right"><a href="{% url 'profile' request.user.username %}"> <img id="user_navbar_pic"
              src=" {{ request.user.profile.profile_pic.url }}"> Профіль</a></li>
         <li class="right"><a class="btn btn-outline-dark btn-warning" href="{% url 'create_post' %}">Створити
             оголошення</a></li>
