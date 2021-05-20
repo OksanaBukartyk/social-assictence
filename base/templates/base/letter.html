@@ -1,0 +1,39 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% block content %}
+    <div class="main-container">
+        <br>
+        <a class="btn btn-warning" href="{% url 'letters' %}">&laquo Повернутись до всіх листів</a>
+
+
+
+        <hr>
+        <div class="row">
+            <div class="col-md-8" align="center">
+                <div class="card card-body bg-transparent" id="product-info-box">
+
+                    <div class="card card-body bg-transparent">
+                        <h3 align="left">Тема: {{ letter.theme }}</h3>
+                        <p align="left">Ім'я: {{ letter.name }}</p>
+
+
+
+                        <p align="left">E-mail: {{ letter.email }}</p>
+                        <p align="left">Повідомлення: {{ letter.message }}</p>
+                        <p align="left">Дата створення: {{ letter.created }}</p>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <br><br><br><br>
+
+
+
+
+
+    </div>
+
+
+{% endblock content %}

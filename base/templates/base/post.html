@@ -3,84 +3,15 @@
 {% block content %}
 
     <style type="text/css">
-        #user_pic {
-            height: 200px;
-            width: 200px;
-            border-radius: 50%;
-            border: 5px solid #888;
-            margin: 0 auto;
-            object-fit: cover;
-        }
-
-        #product_pic {
-            height: 600px;
-            width: 600px;
-            border: 2px solid #888;
-            margin: 0 auto;
-            object-fit: cover;
-        }
-
-        #product_images {
-            height: 500px;
-            width: 500px;
-            border: 5px solid #888;
-            margin: 0 auto;
-            object-fit: cover;
-        }
-
-        A {
-            color: yellow; /* Цвет ссылок */
-        }
-
-        A:hover {
-            color: white;
-        }
-
-        #user-info-box {
-            text-align: center;
-
-
-        }
-
-        #product-info-box {
-            text-align: center;
-        }
-
-        #photos-info-box {
-            text-align: center;
-        }
-
-        .comments-wrapper {
-            margin-top: 50px;
-            padding: 10px;
-            border: 1px solid var(--borderColor);
-            -webkit-box-shadow: -1px 1px 3px -1px rgba(0, 0, 0, 0.75);
-            -moz-box-shadow: -1px 1px 3px -1px rgba(0, 0, 0, 0.75);
-            box-shadow: -1px 1px 3px -1px rgba(0, 0, 0, 0.75);
-        }
-
-        .comment {
-            display: flex;
-            padding: 15px;
-        }
-
-        .comment-author {
-            font-size: 14px;
-            font-weight: 700;
-            color: rgb(30, 174, 219) !important;
-            margin: 2px;
-        }
 
         .author-pic {
-            width: 75px;
-            height: 75px;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
             margin-right: 10px;
         }
 
-        .comment-body {
-            font-size: 14px;
-        }
+
     </style>
 
 
@@ -88,7 +19,7 @@
         <br>
         <a class="btn btn-warning" href="{% url 'posts' %}">&laquo Повернутись до всіх оголошень</a>
 
-        {% if request.user.profile == post.author or request.user.is_staff %}
+        {% if request.user.profile == post.author  %}
             <a class="btn btn-outline-success" href="{% url 'update_post' post.slug %}">Редагувати</a>
             <a class="btn btn-outline-danger" href="{% url 'delete_post' post.slug %}">Видалити</a>
         {% endif %}
@@ -104,8 +35,9 @@
 
                         <p align="left">Опис: {{ post.body|safe }}</p>
 
-                        <p align="left">Категорія: {{ post.product_category.name }}/ {{ post.tags }}</p>
-                        <p align="left">Дата створення: {{ post.created }}</p>
+                        <p align="left">Категорія: {{ post.product_category.name }} {{ post.tags }}</p>
+                        <p align="left">Стан: {{ post.type }}</p>
+                        <p align="left">Дата створення: {{ post.created|date:"d.m.Y H:i" }}</p>
 
                     </div>
                 </div>
@@ -118,14 +50,15 @@
                        href="{% url 'profile' post.author.user.username %}">{{ post.author.user.username }}</a>
                     <br>
                     {% if request.user.is_authenticated and request.user.profile != post.author %}
-                        <li><a class="btn btn-outline-dark btn-warning" href="#">Написати повідомлення</a></li>
+                        <li><a class="btn btn-outline-dark btn-warning"
+                               href="{% url 'createChat' post.author.user.username %}">Написати повідомлення</a></li>
                         <br>
                         <li><a class="btn btn-outline-dark btn-warning"
-                               href="{% url 'add_order' post.slug %}">Замовити</a></li>
+                               href="{% url 'add_order' post.slug %}">Додати до вподобаних оголошень</a></li>
                         <br>
                     {% elif request.user.is_authenticated and request.user.profile == post.author %}
                         <p>Це ваше оголошенння.</p>
-                        {% else %}<p> Ввійдіть або зареєструйтесь, щоб зв'язатись з користувачем.</p>
+                    {% else %}<p> Ввійдіть або зареєструйтесь, щоб зв'язатись з користувачем.</p>
                     {% endif %}
                 </div>
             </div>
@@ -135,7 +68,7 @@
             <div class="col-md-12">
                 <div class="card card-body ">
 
-                <div align="center" class="titles"> Галерея </div>
+                    <div align="center" class="titles"> Галерея</div>
 
                     {% for image in images.all %}
 
@@ -145,57 +78,68 @@
                         <hr>
                         <h5 align="center">Більше фото не має...</h5>
                     {% endfor %}
-</div>
-
-            </div>
-        </div>
-
-
-        <div class="comments-wrapper">
-            <h5>Коментарі: {{ post.postcomment_set.all.count }}</h5>
-            <hr>
-            <!--
-                - Not logged in, output form and say "Register to comment and give room for a message"
-                - When given username
-            -->
-            {% if request.user.is_authenticated %}
-                <form action="" method="POST">
-                    {% csrf_token %}
-                    <textarea required class="form-control" placeholder="Написати коментар..."
-                              name="comment"></textarea>
-                    <br>
-                    <input class="btn btn-warning" type="submit" value="Надіслати">
-                </form>
-            {% else %}
-                <p>Необхідно здійснити вхід або зараєструватись, щоб залишити коментар:</p>
-                <a class="btn btn-warning" href="{% url 'register' %}">Реєстрація/Вхід</a>
-            {% endif %}
-
-            <hr>
-
-            <div class="comment">
-
-                <div class="row">
-                    {% for comment in post.postcomment_set.all %}
-                        <hr>
-                        <div class="col-md-3">
-                            <a href="{% url 'profile' comment.author.user.username %}"> <img class="author-pic"
-                                                                                             src="{{ comment.author.profile_pic.url }}">
-                            </a>
-                        </div>
-                        <div class="col-md-9">
-                            <a href="{% url 'profile' comment.author.user.username %}">{{ comment.author.user.username }}</a>
-                            <p class="comment-body">{{ comment.created|date:"M-d-Y" }}</p>
-
-                            <p align="left" class="comment-body">{{ comment.body }}</p>
-                            <p align="right" class="comment-date">{{ comment.created|date:"M-d-Y" }}</p>
-                        </div>
-                    {% endfor %}
                 </div>
+
             </div>
         </div>
 
-    </div>
+        <div class="container">
+            <div class="comments-wrapper">
+                <h5>Коментарі: {{ post.postcomment_set.all.count }}</h5>
+                <hr>
+                <!--
+                    - Not logged in, output form and say "Register to comment and give room for a message"
+                    - When given username
+                -->
+                {% if request.user.is_authenticated %}
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <textarea required class="form-control" placeholder="Написати коментар..."
+                                  name="comment"></textarea>
+                        <br>
+                        <input class="btn btn-warning" type="submit" value="Надіслати">
+                    </form>
+                {% else %}
+                    <p>Необхідно здійснити вхід або зараєструватись, щоб залишити коментар:</p>
+                    <a class="btn btn-warning" href="{% url 'register' %}">Реєстрація/Вхід</a>
+                {% endif %}
 
+                <hr>
+
+                        {% for comment in post.postcomment_set.all|dictsortreversed:"created" %}
+                             <div class="comment">
+                            <div align="center" class="col-md-3">
+                                <a href="{% url 'profile' comment.author.user.username %}"> <img class="author-pic"
+                                                                                                 src="{{ comment.author.profile_pic.url }}">
+                                </a></div>
+                            <div class="col-md-9">
+
+                                <a style="color: black" href="{% url 'profile' comment.author.user.username %}"><p style="color: black" align="left"
+                                                                                              class="comment-author">
+                                    {{ comment.author.user.username }}</p></a>
+                                <p align="left" class="comment-body">{{ comment.body }}</p>
+                                {% if request.user.is_authenticated and request.user.profile == comment.author %}
+                            <p align="right">
+                            <a style="color: black "  href="{% url 'update_profile_comment' comment.id %}">
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil"
+                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                              d="M11.293 1.293a1 1 0 0 1 1.414 0l2 2a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z"/>
+                                        <path fill-rule="evenodd"
+                                              d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z"/>
+                                    </svg></a></p>
+{% endif %}
+                                <p align="right" class="comment-date">{{ comment.created|date:"d:m:Y H:i:s" }}</p>
+                                <hr>
+                            </div>
+
+
+                        </div>
+                        {% endfor %}
+
+            </div>
+
+        </div>
+    </div>
     </div>
 {% endblock content %}

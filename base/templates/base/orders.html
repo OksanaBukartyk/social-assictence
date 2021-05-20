@@ -3,97 +3,141 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
+    <div class="main-container">
+        <div class="titles">Вподобані оголошення</div>
 
-<style type="text/css">
-	#div_id_tags, #id_tags, #div_id_headline, #id_headline{
+        <br>
+        <div class="post-wrapper">
+            {% for order in orders %}
+                <div class="post ">
+                    <a  href="{% url 'post' order.post.slug %}"> <img  class="thumbnail" src="{{ order.post.thumbnail.url }}"></a>
+                        <div class="post-preview bg-transparent">
+                        {% if request.user.profile != order.customer %}
+                        <div align="right"><a style="color: black"  href="{% url 'add_order' order.post.slug %}"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+</svg></a></div>{% endif %}
+                            <a class="post-title" href="{% url 'post' order.post.slug %}">{{ order.post.headline }}</a>
+                            <p class="post-intro">{{ order.post.sub_headline }}</p>
+                            <p class="post-body">{{ order.post.body }}</p>
+                            <hr>
+                            <table>
+                        <table>
+                            <tr>
+                                <th scope="col"><span class="tag">{{ order.post.tags.name }}</span></th>
+                                <th scope="col"><p class="tag">{{ order.post.type }}</p></th>
 
-		max-height: 100px;
-		border-radius: 5px;
-		padding: 5px;
-		border:1px solid #888;
-	}
-	A {
-    color: yellow; /* Цвет ссылок */
-   }
-    A:hover {
-    color : white;}
+                                {% if request.user.profile == order.customer %}
 
-</style>
+                                    <th width="10%" scope="col"><a class="btn btn-outline-dark btn-warning"
+                                                                   href="{% url 'orderDelete' order.id %}">
+                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash"
+                                             fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                            <path fill-rule="evenodd"
+                                                  d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                        </svg>
+                                    </a>
+                                        <div class="modal" id="myModal{{ order.id }}">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content text-dark">
 
-<div class="main-container">
-	<h1>Posts</h1>
+                                                    <!-- Modal Header -->
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title ">Підтвердження</h4>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;
+                                                        </button>
+                                                    </div>
 
-
-	<br>
-	<div class="post-wrapper">
-
-
-		{% for post in posts %}
-		<div>
-			<div class="post ">
-
-
-				<h6 class="post-title">{{post.post.headline}}</h6>
-                <h6 class="post-title">{{post.customer.user.username}}</h6>
-                <h6 class="post-title">{{post.status}}</h6>
-                <h6 class="post-title">{{post.created}}</h6>
-			</div>
-		</div>
-		{% empty %}
-			<h4>Оголошень не знайдено...</h4>
-		{% endfor %}
-	</div>
-
-	<div class="row">
-
-		{% if posts.has_other_pages %}
-
-			<ul class="pagination">
-
-				{% if posts.has_previous %}
-					<li class="page-item"><a data-page="{{posts.previous_page_number}}" href="?page={{posts.previous_page_number}}" class="page-link">&laquo</a></li>
-
-					<li class="page-item"><a data-page="1" href="?page=1" class="page-link">First</a></li>
-				{% endif %}
+                                                    <!-- Modal body -->
+                                                    <div class="modal-body">
+                                                        <p>Ви дійсно хочете видалити це оголошення з
+                                                            обраних {{ order.post.headline }} ?</p>
 
 
-				{% for i in posts.paginator.page_range %}
-					{% if posts.number == i %}
-						<li class="page-item"><a class="active page-link">{{i}}</a></li>
-					{% else %}
-						<li class="page-item"><a data-page="{{i}}" href="?page={{i}}" class="page-link">{{i}}</a></li>
-					{% endif %}
+                                                    </div>
 
-				{% endfor %}
+                                                    <!-- Modal footer -->
+                                                    <div class="modal-footer">
+                                                        <a href="{% url 'orderDelete' order.id %}"
+                                                           class="btn btn-danger text-light"
+                                                           data-dismiss="">Видалити</a>
+                                                    </div>
 
-
-				{% if posts.has_next %}
-					<li class="page-item"><a data-page="{{posts.paginator.num_pages}}" href="?page={{posts.paginator.num_pages}}" class="page-link">Last</a></li>
-
-					<li class="page-item"><a data-page="{{posts.next_page_number}}" href="?page={{posts.next_page_number}}" class="page-link">&raquo</a></li>
-				{% endif %}
-			</ul>
-
-		{% endif %}
-	</div>
-</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </th>
 
 
-<script type="text/javascript">
-	let searchForm = document.getElementById('searchForm')
-	let pageLinks = document.getElementsByClassName('page-link')
+                                {% endif %}
+                            </tr>
+                        </table>
 
-	for(var i=0; pageLinks.length > i; i++){
 
-		pageLinks[i].addEventListener('click', function(e){
-			e.preventDefault()
-			let page = this.dataset.page
-			console.log('Page:', page)
-			searchForm.innerHTML += `<input value="${page}" name="page" hidden >`
-			searchForm.submit()
-		})
+                    </div>
+                </div>
+            {% empty %}
+                <h4>Оголошень не знайдено...</h4>
+            {% endfor %}
 
-	}
-</script>
+        </div>
+
+        <div class="center">
+            <div class="pages">
+
+                {% if posts.has_other_pages %}
+
+                    {% if posts.has_previous %}
+                        <a data-page="{{ posts.previous_page_number }}"
+                           href="?page={{ posts.previous_page_number }}"
+                           class="btn btn-outline-dark text-dark">&laquo</a>
+
+                        <a data-page="1" href="?page=1" class="btn btn-outline-dark text-dark">На початок</a>
+                    {% endif %}
+
+
+                    {% for i in posts.paginator.page_range %}
+                        {% if posts.number == i %}
+                            <a class="btn btn-outline-dark btn-warning">{{ i }}</a>
+                        {% else %}
+                            <a data-page="{{ i }}" href="?page={{ i }}"
+                               class="btn btn-outline-dark text-dark">{{ i }}</a>
+                        {% endif %}
+
+                    {% endfor %}
+
+
+                    {% if posts.has_next %}
+                        <a data-page="{{ posts.paginator.num_pages }}"
+                           href="?page={{ posts.paginator.num_pages }}" class="btn btn-outline-dark text-dark">В
+                            кінець</a>
+
+                        <a data-page="{{ posts.next_page_number }}"
+                           href="?page={{ posts.next_page_number }}" class="btn btn-outline-dark text-dark">&raquo</a>
+                    {% endif %}
+
+                {% endif %}
+            </div>
+        </div>
+        </br> <br><br><br><br><br><br> <br><br><br><br><br><br>
+    </div>
+
+
+    <script type="text/javascript">
+        let searchForm = document.getElementById('searchForm')
+        let pageLinks = document.getElementsByClassName('page-link')
+
+        for (var i = 0; pageLinks.length > i; i++) {
+
+            pageLinks[i].addEventListener('click', function (e) {
+                e.preventDefault()
+                let page = this.dataset.page
+                console.log('Page:', page)
+                searchForm.innerHTML += `<input value="${page}" name="page" hidden >`
+                searchForm.submit()
+            })
+
+        }
+    </script>
 
 {% endblock content %}

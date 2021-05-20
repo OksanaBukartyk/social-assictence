@@ -2,19 +2,19 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
-<div class="main-container">
-    <div class="bd-example">
-        <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
-                <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
-            </ol>
-            <img src="{% static 'images/images/main.png' %}" class="d-block w-100" alt="...">
-            <div class="carousel-caption ">
-                <div class="title-main">Social assictence</div>
-            </div>
+    <div class="main-container">
+        <div class="bd-example">
+            <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+                </ol>
+                <img src="{% static 'images/images/main.png' %}" class="d-block w-100" alt="...">
+                <div class="carousel-caption ">
+                    <div class="title-main">Social assictence</div>
+                </div>
 
+            </div>
         </div>
-    </div>
     </div>
     <br>
 
@@ -22,55 +22,17 @@
         <div align="center" class="title">Основні категорії</div>
 
         <div class="category-wrapper">
-            <div class="category ">
-               <a href="{% url 'posts' %}">
-                    <img class="thumbnail-cat" src="{% static 'images/images/baby.png' %}"></a>
-                <div class="post-preview bg-transparent">
-                    <a href="{% url 'category_posts' 'Дитячий світ' %}">
-                        <h6 class="post-title-cat">Дитячий світ</h6></a>
-                </div>
-            </div>
-            <div class="category ">
-                <a href="{% url 'posts' %}">
-                    <img class="thumbnail-cat" src="{% static 'images/images/dress.png' %}"></a>
-                <div class="post-preview bg-transparent">
-                     <a href="{% url 'category_posts' 'Одяг та взуття' %}">
-                         <h6 class="post-title-cat">Одяг та взуття</h6></a>
-                </div>
-            </div>
-            <div class="category ">
-                 <a href="{% url 'posts'  %}">
-                     <img class="thumbnail-cat" src="{% static 'images/images/accessories.png' %}"></a>
-                <div class="post-preview bg-transparent">
-                     <a href="{% url 'category_posts' 'Аксесуари' %}">
-                         <h6 class="post-title-cat">Аксесуари</h6></a>
-                </div>
-            </div>
-            <div class="category ">
-                 <a href="{% url 'posts'  %}">
-                     <img class="thumbnail-cat" src="{% static 'images/images/beauty.png' %}"></a>
-                <div class="post-preview bg-transparent">
-                    <a href="{% url 'category_posts' "Краса і здоров'я" %}">
-                         <h6 class="post-title-cat">Краса і здоров'я</h6></a>
-                </div>
-            </div>
-            <div class="category ">
-                 <a href="{% url 'posts'  %}">
-                     <img class="thumbnail-cat" src="{% static 'images/images/furniture.png' %}"></a>
-                <div class="post-preview bg-transparent">
-                     <a href="{% url 'category_posts' 'Меблі' %}">
-                         <h6 class="post-title-cat">Меблі</h6></a>
-                </div>
-            </div>
-            <div class="category ">
-                 <a href="{% url 'posts'  %}">
-                     <img class="thumbnail-cat" src="{% static 'images/images/food.png' %}"></a>
-                <div class="post-preview bg-transparent">
-                     <a href="{% url 'category_posts' 'Продукти харчування' %}">
-                         <h6 class="post-title-cat">Продукти харчування</h6></a>
-                </div>
-            </div>
+            {% for tag in tags %}
+                <div class="category ">
+                    <a href="{% url 'category_posts' tag.name %}">
+                        <img class="thumbnail-cat" src="{{ tag.image.url }}"></a>
+                    <div class="category-preview bg-transparent">
+                        <a href="{% url 'category_posts' tag.name %}">
+                            <h4 class="post-title-cat">{{ tag.name }}</h4></a><br><br>
 
+                    </div>
+                </div>
+            {% endfor %}
 
         </div>
 
@@ -82,23 +44,85 @@
         {% for post in posts %}
             <div>
                 <div class="post ">
-                    <img class="thumbnail" src="{{ post.thumbnail.url }}">
+                    <a href="{% url 'post' post.slug %}"> <img class="thumbnail" src="{{ post.thumbnail.url }}"></a>
                     <div class="post-preview bg-transparent">
-                        <h6 class="post-title">{{ post.headline }}</h6>
+
+                        <a class="post-title" href="{% url 'post' post.slug %}">{{ post.headline }}</a>
                         <p class="post-intro">{{ post.sub_headline }}</p>
-                        <a class="btn btn-outline-dark btn-warning" href="{% url 'post' post.slug %}">Переглянути
-                            оголошення</a>
+                        <p class="post-body">{{ post.body }}</p>
+                        <hr>
+                        <table>
+                            <tr>
+                                <th scope="col"><span class="tag">{{ post.tags.name }}</span></th>
+                                <th scope="col"><p class="tag">{{ post.type }}</p></th>
 
-                        {% if request.user.profile == post.author or request.user.is_staff%}
-                            <hr>
-                            <a class="btn btn-outline-dark btn-warning" href="{% url 'update_post' post.slug %}">Редагувати</a>
-                            | <a class="btn btn-outline-dark btn-warning" href="{% url 'delete_post' post.slug %}">Видалити</a>
+                                {% if request.user.profile == post.author %}
+                                    <th width="10%" scope="col">
+                                        <a class="btn btn-outline-dark btn-warning"
+                                                                   href="{% url 'update_post' post.slug %}">
+                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil"
+                                             fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                  d="M11.293 1.293a1 1 0 0 1 1.414 0l2 2a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z"/>
+                                            <path fill-rule="evenodd"
+                                                  d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z"/>
+                                        </svg>
+                                    </a></th>
+                                    <th width="10%" scope="col"><a class="btn btn-outline-dark btn-warning"
+                                                                   href="{% url 'delete_post' post.slug %}">
+                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash"
+                                             fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                            <path fill-rule="evenodd"
+                                                  d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                        </svg>
+                                    </a>
+                                        <div class="modal" id="myModal{{ post.slug }}">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content text-dark">
 
-                        {% endif %} <hr>
+                                                    <!-- Modal Header -->
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title ">Підтвердження</h4>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;
+                                                        </button>
+                                                    </div>
+
+                                                    <!-- Modal body -->
+                                                    <div class="modal-body">
+                                                        <p>Ви дійсно хочете видалити оголошення {{ post.headline }}
+                                                            ?</p>
 
 
-                        <span class="tag">{{ post.tags.name }}</span>
+                                                    </div>
 
+                                                    <!-- Modal footer -->
+                                                    <div class="modal-footer">
+                                                        <a href="{% url 'delete_post' post.slug %}"
+                                                           class="btn btn-danger text-light"
+                                                           data-dismiss="">Видалити</a>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </th>
+
+                                {% else %}
+
+                                    <th  width="5%" scope="col">
+                                        <a style="color: black"
+                                                              href="{% url 'add_order' post.slug %}">
+                                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart"
+                                                 fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd"
+                                                      d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                                            </svg>
+                                        </a>
+                                    </th>
+                                {% endif %}
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>

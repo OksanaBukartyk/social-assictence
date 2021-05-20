@@ -1,0 +1,10 @@
+
+<h3>Повідомлення:</h3>
+
+{% for chat in chats %}
+    <li><a class="btn btn-outline-dark btn-warning" href="{% url 'chat' chat.id %}"><img id="user_navbar_pic"
+             src=" {{ chat.recipient.user.profile.profile_pic.url }}"> {{ chat.recipient.user.username }}</a>
+</li>
+    <br>
+
+{% endfor %}

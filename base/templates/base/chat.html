@@ -1,103 +1,100 @@
 {% extends 'base/main.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block content %}
+    <style type="text/css">
+        .author-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+    </style>
 
-<style type="text/css">
-	#user_pic{
-		height: 200px;
-		width: 200px;
-		border-radius: 50%;
-		border:5px solid #888;
-		margin:0 auto;
-		object-fit: cover;
-	}
+    <div class="main-container">
+        <br>
 
-	#user-info-box{
-		text-align: center;
-
-	}
-	.comments-wrapper{
-		margin-top: 50px;
-		padding: 10px;
-		border:1px solid var(--borderColor);
-		-webkit-box-shadow: -1px 1px 3px -1px rgba(0,0,0,0.75);
-		-moz-box-shadow: -1px 1px 3px -1px rgba(0,0,0,0.75);
-		box-shadow: -1px 1px 3px -1px rgba(0,0,0,0.75);
-	}
-
-	.comment{
-		display: flex;
-		padding: 15px;
-	}
-
-	.comment-author{
-		font-size: 14px;
-		font-weight: 700;
-		color: rgb(30, 174, 219) !important;
-		margin: 2px;
-	}
-
-	.author-pic{
-		width: 50px;
-		height: 50px;
-		border-radius: 50%;
-		margin-right: 10px;
-	}
-
-	.comment-body{
-
-		font-size: 14px;
-	}
-
-
-</style>
-
-<div class="post-container">
-
-    <a class="btn btn-sm btn-primary" href="{% url 'chats' %}">&laquo Back to Chats</a>
-
-
-    <p class="post-intro">You write to {{chat.recipient}}??/??</p>
-
-    <p class="post-intro">>>> {{chat.send}}</p>
-
-
-    <div class="comments-wrapper">
-        <h5>Massages: {{chat.chats.all.count}}</h5>
-        <hr>
-        <!--
-            - Not logged in, output form and say "Register to comment and give room for a message"
-            - When given username
-        -->
-        {% if request.user.is_authenticated %}
-        <form action="" method="POST">
-            {% csrf_token %}
-            <textarea required class="form-control" placeholder="Write a massege..." name="comment"></textarea>
-            <br>
-            <input class="btn btn-info" type="submit" value="Sent">
-        </form>
-        {% else %}
-        <p>Create an account to sent message:</p>
-        <a class="btn btn-primary" href="{% url 'register' %}">Register/Login</a>
-        {% endif %}
-
-        <hr>
-        {% for chat in chat.chats.all %}
-        <div class="comment">
-            <a href="{% url 'profile' chat.send.slug %}"> <img class="author-pic"
-                                                                    src="{{chat.send.profile_pic.url}}">
-            </a>
-            <div>
-
-                <a href="{% url 'profile' chat.send.slug %}"><p class="comment-author">{{chat.send}}</p></a>
-                <h6 class="comment-body"> {{chat.created|date:"M-d-Y"}}</h6>
-                <p class="comment-body">{{chat.body}}</p>
-
-
+        <div class="row">
+            <div class="col-md-3">
+                {% include 'base/chat_template.html' %}
             </div>
-        </div>
-        {% endfor %}
-    </div>
-</div>
 
+            <div class="col-md-9">
+                <div class="card card-body bg-transparent" id="user-info-box">
+
+                    <div class="titles" align="center">>>> {{ chat.recipient.user.username }}</div>
+
+                    <div class="comments-wrapper">
+                        <h5>Повідомлення: {{ chat.chats.all.count }}</h5>
+                        <hr>
+                        <!--
+                            - Not logged in, output form and say "Register to comment and give room for a message"
+                            - When given username
+                        -->
+                        {% if request.user.is_authenticated %}
+                            <form action="" method="POST">
+                                {% csrf_token %}
+                                <textarea required class="form-control" placeholder="Напишіть повідомлення..."
+                                          name="comment"></textarea>
+                                <br>
+                                <input class="btn btn-info" type="submit" value="Надіслати">
+                            </form>
+                        {% else %}
+                            <p>Щоб надіслати повідомленння зайдіть або зареєструйтесь:</p>
+                            <a class="btn btn-primary" href="{% url 'register' %}">Вхід/Реєстрація</a>
+                        {% endif %}
+
+                        <hr>
+
+                        {% for chat in chat.chats.all|dictsortreversed:"created" %}
+                            {% if request.user == chat.send.user %}
+                                <div class="comment">
+                                    <div class="col-md-3">
+                                        <a href="{% url 'profile' chat.send.user.username %}"> <img class="author-pic"
+                                                                                                    src="{{ chat.send.profile_pic.url }}">
+                                        </a></div>
+                                    <div class="col-md-9">
+
+                                        <a href="{% url 'profile' chat.send.user.username %}"><p align="left"
+                                                                                                 class="comment-author">
+                                            {{ chat.send.user.username }}</p></a>
+                                        <p align="left" class="comment-body">{{ chat.body }}</p>
+
+                                        <p align="left" class="comment-date">{{ chat.created|date:"M-d-Y" }}</p>
+                                        <hr>
+                                    </div>
+
+
+                                </div>
+                            {% else %}
+                                <div class="comment">
+
+                                    <div class="col-md-9">
+
+                                        <a   href="{% url 'profile' chat.send.user.username %}">
+                                            <p align="right"
+                                                                                                 class="comment-author">
+                                            {{ chat.send.user.username }}</p></a>
+                                        <p align="right" class="comment-body">{{ chat.body }}</p>
+
+                                        <p align="right" class="comment-date">{{ chat.created|date:"M-d-Y" }}</p>
+                                        <hr>
+                                    </div>
+                                <div class="col-md-3">
+                                        <a href="{% url 'profile' chat.send.user.username %}"> <img class="author-pic"
+                                                                                                    src="{{ chat.send.profile_pic.url }}">
+                                        </a></div>
+
+
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <br><br><br><br><br>
+        </div>
+    </div>
+    <br><br><br><br><br>
 {% endblock content %}
+

@@ -7,7 +7,7 @@ from .fields import GroupedModelChoiceField
 import django_filters
 from django_filters import CharFilter
 
-from .models import Post, Profile, Tag
+from .models import Post, Profile, Tag, ProfileComment,PostComment
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -31,12 +31,22 @@ class PostForm(ModelForm):
         model = Post
         fields = '__all__'
         # fields = ['headline', 'thumbnail', 'tags', 'body']
-        labels = {'headline': ('Назва'), 'thumbnail': ('Основне фото'), 'body': ('Опис'), 'tags': ('Категорія')}
+        labels = {'headline': ('Назва'), 'thumbnail': ('Основне фото'), 'body': ('Опис'), 'type': ('Стан'), 'tags': ('Категорія')}
         help_texts = {'headline': ('Коротко і ясно'), 'thumbnail': ('Буде показано в пошуку'),
                       'body': ('Детальна інформація про товар')}
 
         exclude = ['author', 'slug', 'active', 'featured']
         # fields = ['headline', 'tags', 'author', 'product_category', ]
+
+
+class CategoryForm(ModelForm):
+    class Meta:
+        model = Tag
+        fields = '__all__'
+        # fields = ['headline', 'thumbnail', 'tags', 'body']
+        labels = {'name': ('Назва'), 'image': ('Основне фото')}
+
+
 
 
 class UserForm(ModelForm):
@@ -49,7 +59,23 @@ class ProfileForm(ModelForm):
     class Meta:
         model = Profile
         fields = '__all__'
-        labels = {'first_name': ("Ім'я"), 'last_name': ('Прізвище'), 'email': ('E-mail'),
+        labels = {
                   'profile_pic': ('Аватарка'), 'bio': ('Біографія')}
         help_texts = {'bio': ('Основна інформація про вас, необхідна для знайомства з вами.')}
-        exclude = ['user', 'slug']
+        exclude = [ 'user', 'email','slug']
+
+
+class PostCommentForm(ModelForm):
+    class Meta:
+        model = PostComment
+        fields = '__all__'
+        exclude = ['author']
+        # fields = ['headline', 'thumbnail', 'tags', 'body']
+
+
+class ProfileCommentForm(ModelForm):
+    class Meta:
+        model = ProfileComment
+        fields = '__all__'
+        exclude = ['author', 'profile']
+        # fields = ['headline', 'thumbnail', 'tags', 'body']

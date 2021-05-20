@@ -27,36 +27,15 @@ class Profile(models.Model):
     #first_name = models.CharField(max_length=200, blank=True, null=True)
     #last_name = models.CharField(max_length=200, blank=True, null=True)
     #email = models.CharField(max_length=200)
+    #phone=models.CharField(max_length=13)
     profile_pic = models.ImageField(null=True, blank=True, upload_to="images", default="/user.png")
     bio = models.TextField(null=True, blank=True)
     last_visit = models.DateTimeField(auto_now_add=True)
-    """slug = models.SlugField(null=True, blank=True)
-
-    def __str__(self):
-        name = str(self.user.first_name)
-        if self.user.last_name:
-            name += ' ' + str(self.user.last_name)
-        return name
-
-    def save(self, *args, **kwargs):
-
-        if self.slug == None:
-            slug = slugify(self.user.last_name)
-
-            has_slug = Profile.objects.filter(slug=slug).exists()
-            count = 1
-            while has_slug:
-                count += 1
-                slug = slugify(self.last_name) + '-' + str(count)
-                has_slug = Profile.objects.filter(slug=slug).exists()
-
-            self.slug = slug
-
-        super().save(*args, **kwargs) """
 
 
 class Tag(models.Model):
     name = models.CharField(max_length=200)
+    image = models.ImageField(upload_to="images", blank=False, null=False)
 
     def __str__(self):
         return self.name
@@ -70,8 +49,12 @@ class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     active = models.BooleanField(default=True)
     featured = models.BooleanField(default=False)
-    tags = models.ForeignKey(Tag, on_delete=models.SET_NULL, null=True)
+    tags = models.ForeignKey(Tag, on_delete=models.SET_NULL, null=True, default=1)
     slug = models.SlugField(null=True, blank=True)
+    type = models.CharField(max_length=8, choices=(("Вживаний", ("Вживаний")),
+                                     ("Новий", ("Новий"))),
+                            default="Вживаний")
+
 
     def __str__(self):
         return self.headline
@@ -137,23 +120,7 @@ class Image(models.Model):
 class Chat(models.Model):
     sender = models.ForeignKey(Profile, related_name='sender', on_delete=models.CASCADE, null=True, blank=True)
     recipient = models.ForeignKey(Profile, related_name='recipient', on_delete=models.CASCADE, null=True, blank=True)
-    slug = models.SlugField(null=True, blank=True)
 
-    def save(self, *args, **kwargs):
-
-        if self.slug == None:
-            slug = slugify(self.sender) + '-' + slugify(self.recipient)
-
-            has_slug = Chat.objects.filter(slug=slug).exists()
-            count = 1
-            while has_slug:
-                count += 1
-                slug = slugify(self.sender) + '-' + slugify(self.recipient) + str(count)
-                has_slug = Chat.objects.filter(slug=slug).exists()
-
-            self.slug = slug
-
-        super().save(*args, **kwargs)
 
 
 class Message(models.Model):

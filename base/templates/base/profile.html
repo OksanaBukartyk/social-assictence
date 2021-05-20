@@ -17,9 +17,9 @@
                 <h2 align="center"><font size="6" color="black"
                                          face="Arial">{{ user.username }} </font></h2>
  {% if  request.user.is_authenticated %}
-                <p align="center"><font size="4" color="black" face="Arial">E-mail: {{ user.email }}</font></p>
 
                 <p>{{ user.profile.bio }}</p>
+     <p>На сайті з {{ user.date_joined|date:"Y" }} року</p>
       {% else %} <p> Ввійдіть або зареєструйтесь, щоб зв'язатись з користувачем чи переглянути інформацію про нього.</p>
                 {% endif %}
                 {% if request.user.profile != user.profile and request.user.is_authenticated  %}
@@ -28,14 +28,13 @@
                     {% endif %}
 
 
-                {% if request.user.profile == user.profile or request.user.is_staff%}
+                {% if request.user.profile == user.profile %}
                 <li><a class="btn btn-outline-dark btn-warning" href="{% url 'chats' %}">Мої повідомлення</a></li>
                 <hr>
                 <li><a class="btn btn-outline-dark btn-warning" href="{% url 'update_profile' %}">Редагувати профіль</a>
                 </li>
             <hr>
-                <li><a class="btn btn-outline-dark btn-warning" href="{% url 'orders' %}">Замовлення мої</a></li>
-                <hr>
+
                {% endif %}
                 <div class="comments-wrapper">
                     <h5>Відгуки: {{ user.profile.profiles.all.count }}</h5>
@@ -58,7 +57,7 @@
                     {% endif %}
 
                     <hr>
-                    {% for comment in user.profile.profiles.all %}
+                    {% for comment in user.profile.profiles.all|dictsortreversed:"created"%}
                         <div class="comment">
                             <div class="col-md-4">
                                 <a href="{% url 'profile' comment.author.user.username %}"> <img class="author-pic"
@@ -70,7 +69,18 @@
                                                                                               class="comment-author">
                                     {{ comment.author.user.username }}</p></a>
                                 <p align="left" class="comment-body">{{ comment.body }}</p>
-                                <p align="right" class="comment-date">{{ comment.created|date:"M-d-Y" }}</p>
+                                {% if request.user.is_authenticated and request.user.profile == comment.author %}
+                            <p align="right">
+                            <a style="color: black "  href="{% url 'update_profile_comment' comment.id %}">
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil"
+                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                              d="M11.293 1.293a1 1 0 0 1 1.414 0l2 2a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z"/>
+                                        <path fill-rule="evenodd"
+                                              d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z"/>
+                                    </svg></a></p>
+{% endif %}
+                                <p align="right" class="comment-date">{{ comment.created|date:"d.m.Y H:i:s" }}</p>
                                 <hr>
                             </div>
 
@@ -86,30 +96,85 @@
                 <h3 class="btn btn-warning" align="center">Оголошення користувача</h3>
                 <div class="post-wrapper">
                     {% for post in posts %}
-                        <div>
-                            <div class="post">
-                                <img class="thumbnail" src="{{ post.thumbnail.url }}">
-                                <div class="post-preview bg-transparent">
-                                    <h6 class="post-title">{{ post.headline }}</h6>
-                                    <p class="post-intro">{{ post.sub_headline }}</p>
-                                    <a align="center" class="btn btn-outline-dark btn-warning"
-                                       href="{% url 'post' post.slug %}">Переглянути оголошення</a>
-                                    <hr>
+                         <div>
+                <div class="post ">
+                        <a  href="{% url 'post' post.slug %}"> <img  class="thumbnail" src="{{ post.thumbnail.url }}"></a>
+                        <div class="post-preview bg-transparent">
 
-                                     {% if request.user.profile == post.author or request.user.is_staff%}
-                                        <a class="btn btn-outline-dark btn-warning"
-                                           href="{% url 'update_post' post.slug %}">Редагувати</a>
-                                        | <a class="btn btn-outline-dark btn-warning"
-                                            href="{% url 'delete_post' post.slug %}">Видалити</a>
-                                         <hr>
-                                    {% endif %}
+                            <a class="post-title" href="{% url 'post' post.slug %}">{{ post.headline }}</a>
+                        <p class="post-intro">{{ post.sub_headline }}</p>
+                            <p class="post-body">{{ post.body }}</p>
+                            <hr>
+                            <table>
+                                <tr>
+                                    <th scope="col"><span class="tag">{{ post.tags.name }}</span></th>
+                                <th  scope="col"><p class="tag">{{ post.type }}</p></th>
+
+                                    {% if request.user.profile == post.author %}
+                                        <th width="10%" scope="col"><a class="btn btn-outline-dark btn-warning"
+                                                                       href="{% url 'update_post' post.slug %}">
+                                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil"
+                                                 fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd"
+                                                      d="M11.293 1.293a1 1 0 0 1 1.414 0l2 2a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z"/>
+                                                <path fill-rule="evenodd"
+                                                      d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z"/>
+                                            </svg>
+                                        </a></th>
+                                        <th width="10%" scope="col"><a class="btn btn-outline-dark btn-warning"
+                                                                       href="{% url 'delete_post' post.slug %}">
+                                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash"
+                                                 fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                                <path fill-rule="evenodd"
+                                                      d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                            </svg>
+                                        </a>
+                                        <div class="modal" id="myModal{{ post.slug }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content text-dark">
+
+                                                <!-- Modal Header -->
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title ">Підтвердження</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;
+                                                    </button>
+                                                </div>
+
+                                                <!-- Modal body -->
+                                                <div class="modal-body">
+                                                    <p>Ви дійсно хочете видалити оголошення {{ post.headline}} ?</p>
 
 
-                                    <span class="tag">{{ post.tags.name }}</span>
+                                                </div>
 
-                                </div>
-                            </div>
+                                                <!-- Modal footer -->
+                                                <div class="modal-footer">
+                                                    <a href="{% url 'delete_post' post.slug %}"
+                                                       class="btn btn-danger text-light" data-dismiss="">Видалити</a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div></th>
+{% else %}
+
+                                    <th  width="5%" scope="col">
+                                        <a style="color: black"
+                                                              href="{% url 'add_order' post.slug %}">
+                                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart"
+                                                 fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd"
+                                                      d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                                            </svg>
+                                        </a>
+                                    </th>
+                                {% endif %}
+                                </tr>
+                            </table>
                         </div>
+                    </div>
+            </div>
                     {% empty %}
                         <h4>Оголошень не знайдено...</h4>
                     {% endfor %}

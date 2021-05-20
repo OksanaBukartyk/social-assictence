@@ -4,36 +4,98 @@
 {% block content %}
 
 
-<style type="text/css">
-	#div_id_tags, #id_tags{
-		overflow-y: scroll;
-		max-height: 100px;
-		border-radius: 5px;
-		padding: 5px;
-		border:1px solid #888;
-	}
-</style>
+    <div class="main-container">
+        <br>
 
-<div class="main-container">
-	<h1>Categories</h1>
+        <div class="row">
+            <div class="col-md-3">
+                {% include 'base/admin_template.html' %}
+            </div>
 
-    <div class="container">
+            <div class="col-md-9">
+                <div class="card card-body bg-transparent" id="user-info-box">
 
-  <form>
-      {% for category in categories %}
-       <br>{{ category.name }} <br>
-       {% for subcategory in category.category_set.all %}
-
-      <input type="radio" name="optradio"> {{ subcategory.name }} <br>
-
-      {% endfor %}
-      {% endfor %}
-  </form>
-
-</div>
+                    <table class="table table-striped table-bordered"><h2 align="center">Категорії</h2>
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Ім'я</th>
+                            <th scope="col">Image</th>
 
 
-</div>
+                            <td></td>
+                            <td><a class="btn btn-warning" href="{% url 'add_category' %}">Додати</a></td>
 
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for category in categories %}
+                            <tr>
+                                <th scope="row">{{ category.id }}</th>
+                                <td>{{ category.name }}</td>
+                                <td><img class="img " width="60px" height="60px" src="{{ category.image.url }}"></td>
+
+
+                                <td><a style="color: black" >
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil"
+                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                              d="M11.293 1.293a1 1 0 0 1 1.414 0l2 2a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z"/>
+                                        <path fill-rule="evenodd"
+                                              d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z"/>
+                                    </svg>
+                                </a>
+                                </td>
+                                <td><a class="navbar-item" data-toggle="modal" data-target="#myModal{{ category.id }}">
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash"
+                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                        <path fill-rule="evenodd"
+                                              d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                    </svg>
+                                </a>
+                                    <div class="modal" id="myModal{{ category.id }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content text-dark">
+
+                                                <!-- Modal Header -->
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title ">Підтвердження</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;
+                                                    </button>
+                                                </div>
+
+                                                <!-- Modal body -->
+                                                <div class="modal-body">
+                                                    Ви дійсно хочете видалити категорію " {{ category.name }} "?
+                                                </div>
+
+                                                <!-- Modal footer -->
+                                                <div class="modal-footer">
+                                                    <a href="{% url 'categoryDelete' category.id %}"
+                                                       class="btn btn-danger text-light" data-dismiss="">Видалити</a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+        <br><br><br><br><br>
+    </div>
+    <!-- Button trigger modal -->
+
+
+    <!-- Modal -->
 
 {% endblock content %}
