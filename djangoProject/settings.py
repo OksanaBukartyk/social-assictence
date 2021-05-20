@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django_filters',
     'ckeditor',
-    'bootstrap_modal_forms',
+
 
     'ckeditor_uploader',
     'storages',
