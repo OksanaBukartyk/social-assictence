@@ -28,7 +28,7 @@ class Profile(models.Model):
     #last_name = models.CharField(max_length=200, blank=True, null=True)
     #email = models.CharField(max_length=200)
     #phone=models.CharField(max_length=13)
-    profile_pic = models.ImageField(null=True, blank=True, upload_to="images", default="/user.png")
+    profile_pic = models.ImageField(null=True, blank=True, upload_to="images", default="user.png")
     bio = models.TextField(null=True, blank=True)
     last_visit = models.DateTimeField(auto_now_add=True)
 
