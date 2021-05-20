@@ -37,6 +37,7 @@
 
                         <p align="left">Категорія: {{ post.product_category.name }} {{ post.tags }}</p>
                         <p align="left">Стан: {{ post.type }}</p>
+                        <p align="left">Місто/село/смт: {{ post.address }}</p>
                         <p align="left">Дата створення: {{ post.created|date:"d.m.Y H:i" }}</p>
 
                     </div>
@@ -73,7 +74,7 @@
                     {% for image in images.all %}
 
                         <br>
-                        <img id="product_images" class="featured_image" src="{{ image.image.url }}">
+                        <img id="product_images" class="product_gellary" src="{{ image.image.url }}">
                     {% empty %}
                         <hr>
                         <h5 align="center">Більше фото не має...</h5>

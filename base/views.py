@@ -59,7 +59,6 @@ def post(request, slug):
             post=post,
             body=request.POST['comment']
         )
-        messages.success(request, "You're comment was successfuly posted!")
         return redirect('post', slug=post.slug)
     context = {'post': post, 'images': images}
     return render(request, 'base/post.html', context)
@@ -130,7 +129,7 @@ def loginPage(request):
             user = User.objects.get(email=email)
             user = authenticate(request, username=user.username, password=password)
         except:
-            messages.error(request, 'Користуувач з таким іменем вже існує')
+            messages.error(request, 'Користувача з таким іменем не існує')
             return redirect('login')
         if user is not None:
             login(request, user)
@@ -188,7 +187,6 @@ def profile(request, username):
             profile=profile,
             body=request.POST['comment']
         )
-        messages.success(request, "You're comment was successfuly posted!")
         return redirect('profile', username=user.username)
     context = {'user': user, 'posts': posts}
     return render(request, 'base/profile.html', context)
@@ -269,7 +267,7 @@ def addOrder(request, slug):
             status=False,
         )
         messages.success(request,
-                         "Ви успішно додали дане оголошення до замовлень. Очікуйте відповіді автора оголошення.")
+                         "Ви успішно додали дане оголошення до вподобаних.")
         return redirect('post', slug=post.slug)
     else:
         messages.error(request, "Це оголошення ви вже додали до списку замовлень.")
@@ -434,8 +432,8 @@ def letter(request, id):
     return render(request, 'base/letter.html', context)
 
 
-@admin_only
-@login_required(login_url="home")
+
+
 def category_posts(request, name):
     tags = Tag.objects.filter(name=name)
     posts = Post.objects.filter(tags=tags[0])

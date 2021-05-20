@@ -31,7 +31,8 @@ class PostForm(ModelForm):
         model = Post
         fields = '__all__'
         # fields = ['headline', 'thumbnail', 'tags', 'body']
-        labels = {'headline': ('Назва'), 'thumbnail': ('Основне фото'), 'body': ('Опис'), 'type': ('Стан'), 'tags': ('Категорія')}
+        labels = {'headline': ('Назва'), 'thumbnail': ('Основне фото'), 'body': ('Опис'), 'type': ('Стан'),
+                  'tags': ('Категорія'), 'address': ('Місто/cело/смт:')}
         help_texts = {'headline': ('Коротко і ясно'), 'thumbnail': ('Буде показано в пошуку'),
                       'body': ('Детальна інформація про товар')}
 

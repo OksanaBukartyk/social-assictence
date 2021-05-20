@@ -54,6 +54,7 @@ class Post(models.Model):
     type = models.CharField(max_length=8, choices=(("Вживаний", ("Вживаний")),
                                      ("Новий", ("Новий"))),
                             default="Вживаний")
+    address = models.CharField(max_length=100, null=False, blank=False, default=None)
 
 
     def __str__(self):

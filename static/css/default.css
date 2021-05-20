@@ -264,6 +264,16 @@ h6 {
     border: 2px solid var(--borderColor);
 }
 
+.product_gellary {
+    display: block;
+    margin: 0 auto;
+
+    height: 700px;
+    width: 700px;
+    object-fit: cover;
+    border: 2px solid var(--borderColor);
+}
+
 
 #theme-options-wrapper {
     display: flex;
