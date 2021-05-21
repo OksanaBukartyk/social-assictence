@@ -61,19 +61,15 @@ class Post(models.Model):
         return self.headline
 
     def save(self, *args, **kwargs):
-
         if self.slug == None:
             slug = slugify(self.headline)
-
             has_slug = Post.objects.filter(slug=slug).exists()
             count = 1
             while has_slug:
                 count += 1
                 slug = slugify(self.headline) + '-' + str(count)
                 has_slug = Post.objects.filter(slug=slug).exists()
-
             self.slug = slug
-
         super().save(*args, **kwargs)
 
 

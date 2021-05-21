@@ -106,8 +106,11 @@ def updatePost(request, slug):
 @login_required(login_url="home")
 def deletePost(request, slug):
     deletePost = Post.objects.filter(slug=slug)
-    deletePost.delete()
-    return redirect('posts')
+    if request.method == 'POST':
+        deletePost.delete()
+        return redirect('posts')
+    context = {'item':deletePost}
+    return render(request, 'base/delete.html', context)
 
 
 def sendEmail(request):

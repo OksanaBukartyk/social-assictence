@@ -6,7 +6,7 @@
 	<form method="POST" action="">
 		{% csrf_token %}
 
-		<p>Ви впевнені, що хочете видалити дане оголошення: {{item}}?</p>
+		<p>Ви впевнені, що хочете видалити дане оголошення {{item.headline}}?</p>
         <input class="btn btn-warning" type="submit" value="Confirm">
         <hr>
 		<a class="btn btn-warning" href="{% url 'posts' %}">&laquo Повернутись до всіх оголошень</a>
