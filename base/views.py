@@ -379,6 +379,20 @@ def add_category(request):
 
 @admin_only
 @login_required(login_url="home")
+def category_edit(request, id):
+    cat = Tag.objects.get(id=id)
+    form = CategoryForm(instance=cat)
+    if request.method == 'POST':
+        form = CategoryForm(request.POST, request.FILES, instance=cat)
+        if form.is_valid():
+            form.save()
+        return redirect('category')
+    context = {'form': form}
+    return render(request, 'base/category_form.html', context)
+
+
+@admin_only
+@login_required(login_url="home")
 def letterDelete(request, id):
     deleteLet = Letter.objects.filter(id=id)
     deleteLet.delete()
@@ -430,8 +444,6 @@ def letter(request, id):
     letter = Letter.objects.get(id=id)
     context = {'letter': letter}
     return render(request, 'base/letter.html', context)
-
-
 
 
 def category_posts(request, name):

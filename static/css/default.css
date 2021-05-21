@@ -470,7 +470,7 @@ h6 {
 
 .category-wrapper {
     display: grid;
-    grid-template-columns: repeat(auto-fit, 170px);
+    grid-template-columns: repeat(auto-fit, 150px);
     gap: 20px; /* між картками */
     justify-content: center;
     padding-bottom: 50px;

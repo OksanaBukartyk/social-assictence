@@ -34,6 +34,7 @@ urlpatterns = [
     path('category', views.category, name="category"),
     path('categoryDelete/<int:id>/', views.categoryDelete, name="categoryDelete"),
     path('add_category/', views.add_category, name="add_category"),
+path('category_edit/<int:id>/', views.category_edit, name="category_edit"),
     path('letterDelete/<int:id>/', views.letterDelete, name="letterDelete"),
     path('commentProfileDelete/<int:id>/', views.commentProfileDelete, name="commentProfileDelete"),
     path('commentPostDelete/<int:id>/', views.commentPostDelete, name="commentPostDelete"),
