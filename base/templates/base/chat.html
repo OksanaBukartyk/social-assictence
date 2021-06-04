@@ -53,7 +53,7 @@
                                         <a href="{% url 'profile' chat.send.user.username %}"> <img class="author-pic"
                                                                                                     src="{{ chat.send.profile_pic.url }}">
                                         </a></div>
-                                    <div class="col-md-9">
+                                    <div class="col-md-6">
 
                                         <a href="{% url 'profile' chat.send.user.username %}"><p align="left"
                                                                                                  class="comment-author">
@@ -63,24 +63,25 @@
                                         <p align="left" class="comment-date">{{ chat.created|date:"M-d-Y" }}</p>
                                         <hr>
                                     </div>
+                                    <div class="col-md-3"></div>
 
 
                                 </div>
                             {% else %}
                                 <div class="comment">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-6">
 
-                                    <div class="col-md-9">
-
-                                        <a   href="{% url 'profile' chat.send.user.username %}">
+                                        <a href="{% url 'profile' chat.send.user.username %}">
                                             <p align="right"
-                                                                                                 class="comment-author">
-                                            {{ chat.send.user.username }}</p></a>
-                                        <p align="right" class="comment-body">{{ chat.body }}</p>
+                                               class="comment-author">
+                                                {{ chat.send.user.username }}</p></a>
+                                        <p align="left" class="comment-body">{{ chat.body }}</p>
 
                                         <p align="right" class="comment-date">{{ chat.created|date:"M-d-Y" }}</p>
                                         <hr>
                                     </div>
-                                <div class="col-md-3">
+                                    <div class="col-md-3">
                                         <a href="{% url 'profile' chat.send.user.username %}"> <img class="author-pic"
                                                                                                     src="{{ chat.send.profile_pic.url }}">
                                         </a></div>

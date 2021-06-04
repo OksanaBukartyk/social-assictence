@@ -132,7 +132,7 @@ def loginPage(request):
             user = User.objects.get(email=email)
             user = authenticate(request, username=user.username, password=password)
         except:
-            messages.error(request, 'Користувача з таким іменем не існує')
+            messages.error(request, 'Не вірний е-mail або пароль')
             return redirect('login')
         if user is not None:
             login(request, user)
