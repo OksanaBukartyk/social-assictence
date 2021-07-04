@@ -5,17 +5,13 @@ urlpatterns = [
     path('', views.home, name="home"),
     path('posts/', views.posts, name="posts"),
     path('post/<slug:slug>/', views.post, name="post"),
-
     # CRUD PATHS
-
     path('create_post/', views.createPost, name="create_post"),
     path('update_post/<slug:slug>/', views.updatePost, name="update_post"),
     path('delete_post/<slug:slug>/', views.deletePost, name="delete_post"),
-
     path('add_order/<slug:slug>', views.addOrder, name="add_order"),
     path('orders', views.orders, name="orders"),
     path('orderDelete/<int:id>/', views.orderDelete, name="orderDelete"),
-
     path('profile/<str:username>/', views.profile, name="profile"),
     path('update_profile/', views.updateProfile, name="update_profile"),
     path('register/', views.registerPage, name="register"),
@@ -39,15 +35,11 @@ urlpatterns = [
     path('update_profile_comment/<int:id>/', views.updateProfileComment, name="update_profile_comment"),
     path('users', views.users, name="users"),
     path('usersDelete/<int:id>/', views.usersDelete, name="usersDelete"),
-
     path('delete_post_admin/<slug:slug>/', views.deletePostAdmin, name="delete_post_admin"),
     path('posts_admin', views.posts_admin, name="posts_admin"),
-
     path('usersDelete/<int:id>/', views.usersDelete, name="usersDelete"),
     path('postsDelete/<int:id>/', views.postsDelete, name="postsDelete"),
     path('letter/<int:id>/', views.letter, name="letter"),
     path('letters', views.letters, name="letters"),
-
     path('letterDelete/<int:id>/', views.letterDelete, name="letterDelete"),
-
 ]
